@@ -54,7 +54,7 @@ gameOverSound = pygame.mixer.Sound('gameover.wav')
 pygame.mixer.music.load('background.mid')
 
 # Set up images.
-playerImage = pygame.image.load('player.png')
+playerImage = pygame.image.load('lama_player1.png')
 playerRect = playerImage.get_rect()
 baddieImage = pygame.image.load('baddie.png')
 
