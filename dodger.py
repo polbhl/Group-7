@@ -4,8 +4,12 @@ from pygame.locals import *
 WINDOWWIDTH = 600
 WINDOWHEIGHT = 600
 TEXTCOLOR = (0, 0, 0)
+
+#todo changer le fond (image, vidéo, …)
 BACKGROUNDCOLOR = (255, 255, 255)
 FPS = 60
+
+#todo changer taille et vitesse d'apparition
 BADDIEMINSIZE = 10
 BADDIEMAXSIZE = 40
 BADDIEMINSPEED = 1
@@ -33,6 +37,7 @@ class Projectile(pygame.sprite.Sprite):
 
 projectiles = pygame.sprite.Group()
 
+#todo modifier pour tirer
 def shoot(self):
     projectile = Projectile(self.x, self.rect.top)
     all_sprites.add(projectile)
@@ -82,6 +87,8 @@ pygame.mixer.music.load('background.mid')
 # Set up images.
 playerImage = pygame.image.load('lama_player1.png')
 playerRect = playerImage.get_rect()
+
+#todo change baddie image mettre un mexicain
 baddieImage = pygame.image.load('baddie.png')
 
 #les crachats du lama (tentative en tout cas)
@@ -116,6 +123,8 @@ while True:
     moveLeft = moveRight = moveUp = moveDown = False
     reverseCheat = slowCheat = False
     baddieAddCounter = 0
+
+    #todo changer la musique du jeu
     pygame.mixer.music.play(-1, 0.0)
 
     while True: # The game loop runs while the game part is playing.
@@ -247,3 +256,5 @@ while True:
     waitForPlayerToPressKey()
 
     gameOverSound.stop()
+
+#todo bonus/malus
