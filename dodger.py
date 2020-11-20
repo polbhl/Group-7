@@ -175,6 +175,7 @@ while True:
 
         all_sprites.update()
 
+            #todo supprimer ou garder
             #if event.type == MOUSEMOTION:
                 # If the mouse moves, move the player where to the cursor.
                 #playerRect.centerx = event.pos[0]
