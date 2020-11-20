@@ -4,6 +4,7 @@ from pygame.locals import *
 WINDOWWIDTH = 600
 WINDOWHEIGHT = 600
 TEXTCOLOR = (0, 0, 0)
+screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
 #todo changer le fond (image, vidéo, …)
 BACKGROUNDCOLOR = (255, 255, 255)
@@ -14,35 +15,55 @@ BADDIEMINSIZE = 10
 BADDIEMAXSIZE = 40
 BADDIEMINSPEED = 1
 BADDIEMAXSPEED = 10
-ADDNEWBADDIERATE = 3
+ADDNEWBADDIERATE = 15
 PLAYERMOVERATE = 5
 
 #Définir l'écran
 #screen=pygame.display.set_mode((WINDOWIDTH, WINDOWHEIGHT))
 
-all_sprites = pygame.sprite.Group()
 
+
+#set up the class of the projectiles with sprite
 class Projectile(pygame.sprite.Sprite):
     def __init__(self, x, y):
-        self.x = x
-        self.y = y
+        pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('bullet.png')
         self.rect = self.image.get_rect()
+        self.rect.bottom = y
+        self.rect.centerx = x
         self.speedy = -10
 
+
     def update(self):
-        self.y += self.speedy
+        self.rect.centerx += self.speedy
+        #make the projectile disappear when it goes off the screen
         if self.rect.bottom < 0:
             self.kill()
 
 projectiles = pygame.sprite.Group()
 
 #todo modifier pour tirer
-def shoot(self):
-    projectile = Projectile(self.x, self.rect.top)
-    all_sprites.add(projectile)
-    projectiles.add(projectile)
+class Player(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load('lama_player1.png')
+        self.rect = self.image.get_rect()
+        self.rect.centerx = WINDOWWIDTH / 2
+        self.rect.bottom = WINDOWHEIGHT - 10
+        self.speedx=0
 
+    def update(self):
+        self.rect.x += self.speedx
+
+#set up the function to shoot projectiles
+    def shoot(self):
+        projectile = Projectile(self.rect.x, self.rect.top)
+        all_sprites.add(projectile)
+        projectiles.add(projectile)
+
+all_sprites = pygame.sprite.Group()
+player = Player()
+all_sprites.add(player)
 
 def terminate():
     pygame.quit()
@@ -63,6 +84,12 @@ def playerHasHitBaddie(playerRect, baddies):
         if playerRect.colliderect(b['rect']):
             return True
     return False
+
+#def projectileHasHitBaddie(projectile, baddies):
+    #for b in baddies:
+        #if projectile.colliderect(b['rect']):
+            #return True
+    #return False
 
 def drawText(text, font, surface, x, y):
     textobj = font.render(text, 1, TEXTCOLOR)
@@ -119,7 +146,7 @@ while True:
     # Set up the start of the game.
     baddies = []
     score = 0
-    playerRect.topleft = (WINDOWWIDTH / 2, WINDOWHEIGHT - 50)
+    playerRect.topleft = (WINDOWWIDTH / 2, WINDOWHEIGHT - 50) #ca fait que le lama apparaisse en bas au milieu de l'écran
     moveLeft = moveRight = moveUp = moveDown = False
     reverseCheat = slowCheat = False
     baddieAddCounter = 0
@@ -151,8 +178,9 @@ while True:
                 if event.key == K_DOWN or event.key == K_s:
                     moveUp = False
                     moveDown = True
+                #make that the player shoot projectile when we press space
                 if event.key == K_SPACE:
-                    playerRect.shoot() #c'est ici que ça joue pas avec "playerRect"
+                    player.shoot() #c'est ici que ça joue pas avec "playerRect"
 
             if event.type == KEYUP:
                 if event.key == K_z:
@@ -232,6 +260,9 @@ while True:
 
         # Draw the player's rectangle.
         windowSurface.blit(playerImage, playerRect)
+
+        all_sprites.draw(screen)
+        #pygame.display.flip()
 
         # Draw each baddie.
         for b in baddies:
