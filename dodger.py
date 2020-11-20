@@ -10,8 +10,34 @@ BADDIEMINSIZE = 10
 BADDIEMAXSIZE = 40
 BADDIEMINSPEED = 1
 BADDIEMAXSPEED = 8
-ADDNEWBADDIERATE = 6
+ADDNEWBADDIERATE = 3
 PLAYERMOVERATE = 5
+
+#Définir l'écran
+#screen=pygame.display.set_mode((WINDOWIDTH, WINDOWHEIGHT))
+
+all_sprites = pygame.sprite.Group()
+
+class Projectile(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.image = pygame.image.load('bullet.png')
+        self.rect = self.image.get_rect()
+        self.speedy = -10
+
+    def update(self):
+        self.y += self.speedy
+        if self.rect.bottom < 0:
+            self.kill()
+
+projectiles = pygame.sprite.Group()
+
+def shoot(self):
+    projectile = Projectile(self.x, self.rect.top)
+    all_sprites.add(projectile)
+    projectiles.add(projectile)
+
 
 def terminate():
     pygame.quit()
@@ -58,6 +84,22 @@ playerImage = pygame.image.load('lama_player1.png')
 playerRect = playerImage.get_rect()
 baddieImage = pygame.image.load('baddie.png')
 
+#les crachats du lama (tentative en tout cas)
+#bullet_image=pygame.image.load('bullet.png')
+#bulletX=0
+#bulletY=480
+#bulletX_change=0
+#bulletY_change=10
+#playerX=370
+#bullet_state="ready"
+
+#def fire_bullet(x,y):
+    #global bullet_state
+    #bullet_state="fire"
+    #windowSurface.blit(bullet_image(x + 16, y + 10))
+
+
+
 # Show the "Start" screen.
 windowSurface.fill(BACKGROUNDCOLOR)
 drawText('Dodger', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
@@ -100,6 +142,8 @@ while True:
                 if event.key == K_DOWN or event.key == K_s:
                     moveUp = False
                     moveDown = True
+                if event.key == K_SPACE:
+                    playerRect.shoot() #c'est ici que ça joue pas avec "playerRect"
 
             if event.type == KEYUP:
                 if event.key == K_z:
@@ -120,10 +164,12 @@ while True:
                 if event.key == K_DOWN or event.key == K_s:
                     moveDown = False
 
-            if event.type == MOUSEMOTION:
+        all_sprites.update()
+
+            #if event.type == MOUSEMOTION:
                 # If the mouse moves, move the player where to the cursor.
-                playerRect.centerx = event.pos[0]
-                playerRect.centery = event.pos[1]
+                #playerRect.centerx = event.pos[0]
+                #playerRect.centery = event.pos[1]
         # Add new baddies at the top of the screen, if needed.
         if not reverseCheat and not slowCheat:
             baddieAddCounter += 1
@@ -146,6 +192,12 @@ while True:
             playerRect.move_ip(0, -1 * PLAYERMOVERATE)
         if moveDown and playerRect.bottom < WINDOWHEIGHT:
             playerRect.move_ip(0, PLAYERMOVERATE)
+
+        #Move Bullet
+        #if bullet_state is "fire":
+            #fire_bullet(370,bulletY)
+            #bulletY -= bulletY_change
+
 
         # Move the baddies down.
         for b in baddies:
