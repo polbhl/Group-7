@@ -35,7 +35,7 @@ class Projectile(pygame.sprite.Sprite):
 
 
     def update(self):
-        self.rect.centerx += self.speedy
+        self.rect.centery += self.speedy
         #make the projectile disappear when it goes off the screen
         if self.rect.bottom < 0:
             self.kill()
@@ -53,13 +53,27 @@ class Player(pygame.sprite.Sprite):
         self.speedx=0
 
     def update(self):
+        self.speedx = 0
+        keystate = pygame.key.get_pressed()
+        if keystate[pygame.K_LEFT]:
+            self.speedx = -5
+        if keystate[pygame.K_RIGHT]:
+            self.speedx = 5
         self.rect.x += self.speedx
 
 #set up the function to shoot projectiles
     def shoot(self):
-        projectile = Projectile(self.rect.x, self.rect.top)
+        projectile = Projectile(self.rect.x, self.rect.top) #tout se joue la
         all_sprites.add(projectile)
         projectiles.add(projectile)
+
+
+class Baddie(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load('baddie.png')
+        self.rect = self.image.get_rect()
+
 
 all_sprites = pygame.sprite.Group()
 player = Player()
@@ -85,11 +99,7 @@ def playerHasHitBaddie(playerRect, baddies):
             return True
     return False
 
-#def projectileHasHitBaddie(projectile, baddies):
-    #for b in baddies:
-        #if projectile.colliderect(b['rect']):
-            #return True
-    #return False
+#hits = pygame.sprite.spritecollide(projectiles, baddies, True)
 
 def drawText(text, font, surface, x, y):
     textobj = font.render(text, 1, TEXTCOLOR)
@@ -112,8 +122,8 @@ gameOverSound = pygame.mixer.Sound('gameover.wav')
 pygame.mixer.music.load('background.mid')
 
 # Set up images.
-playerImage = pygame.image.load('lama_player1.png')
-playerRect = playerImage.get_rect()
+#playerImage = pygame.image.load('lama_player1.png')
+#playerRect = playerImage.get_rect()
 
 #todo change baddie image mettre un mexicain
 baddieImage = pygame.image.load('baddie.png')
@@ -146,8 +156,8 @@ while True:
     # Set up the start of the game.
     baddies = []
     score = 0
-    playerRect.topleft = (WINDOWWIDTH / 2, WINDOWHEIGHT - 50) #ca fait que le lama apparaisse en bas au milieu de l'écran
-    moveLeft = moveRight = moveUp = moveDown = False
+    #playerRect.topleft = (WINDOWWIDTH / 2, WINDOWHEIGHT - 50) #ca fait que le lama apparaisse en bas au milieu de l'écran
+    #moveLeft = moveRight = moveUp = moveDown = False
     reverseCheat = slowCheat = False
     baddieAddCounter = 0
 
@@ -166,18 +176,18 @@ while True:
                     reverseCheat = True
                 if event.key == K_x:
                     slowCheat = True
-                if event.key == K_LEFT or event.key == K_a:
-                    moveRight = False
-                    moveLeft = True
-                if event.key == K_RIGHT or event.key == K_d:
-                    moveLeft = False
-                    moveRight = True
-                if event.key == K_UP or event.key == K_w:
-                    moveDown = False
-                    moveUp = True
-                if event.key == K_DOWN or event.key == K_s:
-                    moveUp = False
-                    moveDown = True
+                #if event.key == K_LEFT or event.key == K_a:
+                  #  moveRight = False
+                 #   moveLeft = True
+                #if event.key == K_RIGHT or event.key == K_d:
+                #    moveLeft = False
+                #    moveRight = True
+                #if event.key == K_UP or event.key == K_w:
+                #    moveDown = False
+                #    moveUp = True
+                #if event.key == K_DOWN or event.key == K_s:
+                #    moveUp = False
+                 #   moveDown = True
                 #make that the player shoot projectile when we press space
                 if event.key == K_SPACE:
                     player.shoot() #c'est ici que ça joue pas avec "playerRect"
@@ -192,14 +202,14 @@ while True:
                 if event.key == K_ESCAPE:
                         terminate()
 
-                if event.key == K_LEFT or event.key == K_a:
-                    moveLeft = False
-                if event.key == K_RIGHT or event.key == K_d:
-                    moveRight = False
-                if event.key == K_UP or event.key == K_w:
-                    moveUp = False
-                if event.key == K_DOWN or event.key == K_s:
-                    moveDown = False
+                #if event.key == K_LEFT or event.key == K_a:
+                #    moveLeft = False
+                #if event.key == K_RIGHT or event.key == K_d:
+                #    moveRight = False
+                #if event.key == K_UP or event.key == K_w:
+                #    moveUp = False
+                #if event.key == K_DOWN or event.key == K_s:
+                 #   moveDown = False
 
         all_sprites.update()
 
@@ -222,19 +232,14 @@ while True:
             baddies.append(newBaddie)
 
         # Move the player around.
-        if moveLeft and playerRect.left > 0:
-            playerRect.move_ip(-1 * PLAYERMOVERATE, 0)
-        if moveRight and playerRect.right < WINDOWWIDTH:
-            playerRect.move_ip(PLAYERMOVERATE, 0)
-        if moveUp and playerRect.top > 0:
-            playerRect.move_ip(0, -1 * PLAYERMOVERATE)
-        if moveDown and playerRect.bottom < WINDOWHEIGHT:
-            playerRect.move_ip(0, PLAYERMOVERATE)
-
-        #Move Bullet
-        #if bullet_state is "fire":
-            #fire_bullet(370,bulletY)
-            #bulletY -= bulletY_change
+        #if moveLeft and playerRect.left > 0:
+           # playerRect.move_ip(-1 * PLAYERMOVERATE, 0)
+        #if moveRight and playerRect.right < WINDOWWIDTH:
+         #   playerRect.move_ip(PLAYERMOVERATE, 0)
+        #if moveUp and playerRect.top > 0:
+         #   playerRect.move_ip(0, -1 * PLAYERMOVERATE)
+        #if moveDown and playerRect.bottom < WINDOWHEIGHT:
+         #   playerRect.move_ip(0, PLAYERMOVERATE)
 
 
         # Move the baddies down.
@@ -259,7 +264,7 @@ while True:
         drawText('Top Score: %s' % (topScore), font, windowSurface, 10, 40)
 
         # Draw the player's rectangle.
-        windowSurface.blit(playerImage, playerRect)
+        #windowSurface.blit(playerImage, playerRect)
 
         all_sprites.draw(screen)
         #pygame.display.flip()
@@ -271,10 +276,10 @@ while True:
         pygame.display.update()
 
         # Check if any of the baddies have hit the player.
-        if playerHasHitBaddie(playerRect, baddies):
-            if score > topScore:
-                topScore = score # set new top score
-            break
+        #if playerHasHitBaddie(playerRect, baddies):
+        #    if score > topScore:
+        #        topScore = score # set new top score
+        #    break
 
         mainClock.tick(FPS)
 
