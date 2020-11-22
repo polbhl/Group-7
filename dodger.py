@@ -7,7 +7,7 @@ TEXTCOLOR = (0, 0, 0)
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
 #todo changer le fond (image, vidéo, …)
-BACKGROUNDCOLOR = (224, 205, 169)
+BACKGROUNDIMAGE = pygame.image.load("Macchu Picchu.jpeg")
 FPS = 60
 
 #todo changer taille et vitesse d'apparition
