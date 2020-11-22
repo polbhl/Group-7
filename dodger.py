@@ -2,15 +2,14 @@ import pygame, random, sys
 from pygame.locals import *
 
 WINDOWWIDTH = 600
-WINDOWHEIGHT = 600
+WINDOWHEIGHT = 8 00
 TEXTCOLOR = (0, 0, 0)
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
 #todo changer le fond (image, vidéo, …)
-BACKGROUNDIMAGE = pygame.image.load("Macchu Picchu.jpeg")
+BACKGROUNDIMAGE = (224,205,169)
 FPS = 60
 
-#todo changer taille et vitesse d'apparition
 BADDIEMINSIZE = 10
 BADDIEMAXSIZE = 40
 BADDIEMINSPEED = 1
@@ -61,7 +60,6 @@ class Player(pygame.sprite.Sprite):
             self.rect.right = WINDOWWIDTH
         if self.rect.left < 0:
             self.rect.left = 0
-    #todo arrêter déplacement à la taille de l'écran
 
 #action de tirer du lama
     def shoot(self):
@@ -73,6 +71,7 @@ class Player(pygame.sprite.Sprite):
 #class monstres par sprite
 class Baddie(pygame.sprite.Sprite):
     #caractéristiques des monstres
+    #todo changer vitesse d'apparition
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('Mexicain_pixel.png')
@@ -146,7 +145,6 @@ pygame.mixer.music.load('background.mid')
 #playerImage = pygame.image.load('lama_player1.png')
 #playerRect = playerImage.get_rect()
 
-#todo change baddie image mettre un mexicain
 #baddieImage = pygame.image.load('baddie.png')
 
 #les crachats du lama (tentative en tout cas)
@@ -166,7 +164,7 @@ pygame.mixer.music.load('background.mid')
 
 
 # Show the "Start" screen.
-windowSurface.fill(BACKGROUNDCOLOR)
+windowSurface.fill(BACKGROUNDIMAGE)
 drawText('Dodger', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
 drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (WINDOWHEIGHT / 3) + 50)
 pygame.display.update()
@@ -243,8 +241,6 @@ while True:
         if hits:
             terminate()
 
-            #todo meurt quand il est touché
-
             #todo supprimer ou garder
             #if event.type == MOUSEMOTION:
                 # If the mouse moves, move the player where to the cursor.
@@ -289,7 +285,7 @@ while True:
               #  baddies.remove(b)
 
         # Draw the game world on the window.
-        windowSurface.fill(BACKGROUNDCOLOR)
+        windowSurface.fill(BACKGROUNDIMAGE)
 
         # Draw the score and top score.
         drawText('Score: %s' % (score), font, windowSurface, 10, 0)
