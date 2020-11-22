@@ -22,8 +22,7 @@ PLAYERMOVERATE = 5
 #screen=pygame.display.set_mode((WINDOWIDTH, WINDOWHEIGHT))
 
 
-
-#set up the class of the projectiles with sprite
+#class projectiles
 class Projectile(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -33,16 +32,13 @@ class Projectile(pygame.sprite.Sprite):
         self.rect.centerx = x
         self.speedy = -10
 
-
     def update(self):
         self.rect.centery += self.speedy
         #make the projectile disappear when it goes off the screen
         if self.rect.bottom < 0:
             self.kill()
 
-
-
-#todo modifier pour tirer
+#lama qui tire
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -60,15 +56,18 @@ class Player(pygame.sprite.Sprite):
         if keystate[pygame.K_RIGHT]:
             self.speedx = 5
         self.rect.x += self.speedx
+    #todo arrêter déplacement à la taille de l'écran
 
-#set up the function to shoot projectiles
+#action de tirer du lama
     def shoot(self):
-        projectile = Projectile(self.rect.x, self.rect.top) #tout se joue la
+        projectile = Projectile(self.rect.x, self.rect.top)
         all_sprites.add(projectile)
         projectiles.add(projectile)
 
 
+#class monstres par sprite
 class Baddie(pygame.sprite.Sprite):
+    #caractéristiques des monstres
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('baddie.png')
@@ -77,6 +76,7 @@ class Baddie(pygame.sprite.Sprite):
         self.rect.y = random.randrange(-100, -40)
         self.speedy = random.randrange(2, 6)
 
+    #définition des mouvements
     def update(self):
         self.rect.y += self.speedy
         #les faire respawn quand ils sont hors de l'écran
@@ -236,6 +236,7 @@ while True:
         hits = pygame.sprite.spritecollide(player, baddies, False)
         if hits:
             running = False
+            #todo meurt quand il est touché
 
             #todo supprimer ou garder
             #if event.type == MOUSEMOTION:
