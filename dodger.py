@@ -38,7 +38,7 @@ class Projectile(pygame.sprite.Sprite):
         if self.rect.bottom < 0:
             self.kill()
 
-#lama qui tire
+#lama
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -56,6 +56,10 @@ class Player(pygame.sprite.Sprite):
         if keystate[pygame.K_RIGHT]:
             self.speedx = 5
         self.rect.x += self.speedx
+        if self.rect.right > WINDOWWIDTH:
+            self.rect.right = WINDOWWIDTH
+        if self.rect.left < 0:
+            self.rect.left = 0
     #todo arrêter déplacement à la taille de l'écran
 
 #action de tirer du lama
@@ -70,7 +74,7 @@ class Baddie(pygame.sprite.Sprite):
     #caractéristiques des monstres
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('baddie.png')
+        self.image = pygame.image.load('Mexicain_pixel.png')
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
         self.rect.y = random.randrange(-100, -40)
