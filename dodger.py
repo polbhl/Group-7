@@ -241,7 +241,8 @@ while True:
             baddies.add(b)
         hits = pygame.sprite.spritecollide(player, baddies, False)
         if hits:
-            running = False
+            terminate()
+
             #todo meurt quand il est touché
 
             #todo supprimer ou garder
