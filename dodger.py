@@ -2,7 +2,7 @@ import pygame, random, sys
 from pygame.locals import *
 
 WINDOWWIDTH = 600
-WINDOWHEIGHT = 8 00
+WINDOWHEIGHT = 600
 TEXTCOLOR = (0, 0, 0)
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
@@ -19,7 +19,7 @@ PLAYERMOVERATE = 5
 
 #Définir l'écran
 #screen=pygame.display.set_mode((WINDOWIDTH, WINDOWHEIGHT))
-
+score = 0
 
 #class projectiles
 class Projectile(pygame.sprite.Sprite):
@@ -79,7 +79,16 @@ class Baddie(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
         self.rect.y = random.randrange(-100, -40)
-        self.speedy = random.randrange(2, 6)
+        self.speedy = random.randrange(1, 3)
+        if score > 500: #augmentation de la vitese des baddies
+            self.speedy = random.randrange(1, 4)
+        if score > 1000:
+            self.speedy = random.randrange(1, 5)
+        if score > 1500:
+            self.speedy = random.randrange(2, 6)
+        if score > 2000:
+            self.speedy = random.randrange(2, 7)
+
 
     #définition des mouvements
     def update(self):
@@ -88,14 +97,27 @@ class Baddie(pygame.sprite.Sprite):
         if self.rect.top > WINDOWHEIGHT + 10:
             self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
             self.rect.y = random.randrange(-100, -40)
-            self.speedy = random.randrange(2, 6)
+            self.speedy = random.randrange(1, 3)
+            if score > 500:
+                self.speedy = random.randrange(1, 4)
+            if score > 1000:
+                self.speedy = random.randrange(1, 5)
+            if score > 1500:
+                self.speedy = random.randrange(2, 6)
+
 
 all_sprites = pygame.sprite.Group()
 player = Player()
 all_sprites.add(player)
 projectiles = pygame.sprite.Group()
 baddies = pygame.sprite.Group()
-for i in range(5):#nombre de baddies
+
+nbrdemonstre = 5
+if score > 1000: #augmentation du nombre de baddies
+    nbrdemonstre = nbrdemonstre + 1
+if score > 2000:
+    nbrdemonstre = nbrdemonstre + 1
+for i in range(nbrdemonstre):#nombre de baddies
     b = Baddie()
     all_sprites.add(b)
     baddies.add(b)
@@ -185,6 +207,7 @@ while True:
 
     while True: # The game loop runs while the game part is playing.
         score += 1 # Increase score.
+
 
         for event in pygame.event.get():
             if event.type == QUIT:
