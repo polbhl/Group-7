@@ -52,9 +52,9 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 0
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_LEFT]:
-            self.speedx = -5
+            self.speedx = -7
         if keystate[pygame.K_RIGHT]:
-            self.speedx = 5
+            self.speedx = 7
         self.rect.x += self.speedx
         if self.rect.right > WINDOWWIDTH:
             self.rect.right = WINDOWWIDTH
@@ -66,6 +66,22 @@ class Player(pygame.sprite.Sprite):
         projectile = Projectile(self.rect.x, self.rect.top)
         all_sprites.add(projectile)
         projectiles.add(projectile)
+
+class Power(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load('bullet.png')
+        self.image = pygame.transform.scale(self.image, (20, 20))
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
+        self.rect.y = random.randrange(-100, -40)
+        self.speedy = -10
+
+    def update(self):
+        self.rect.centery += self.speedy
+        #make the projectile disappear when it goes off the screen
+        if self.rect.bottom < 0:
+            self.kill()
 
 
 #class mexicains par sprite
