@@ -267,7 +267,7 @@ while True:
             baddies.add(b)
         hits = pygame.sprite.spritecollide(player, baddies, False)
         if hits:
-            terminate()
+            break
 
             #todo supprimer ou garder
             #if event.type == MOUSEMOTION:
