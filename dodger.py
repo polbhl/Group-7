@@ -7,7 +7,25 @@ TEXTCOLOR = (0, 0, 0)
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
 #todo changer le fond (image, vidéo, …)
-BACKGROUNDIMAGE = (224,205,169)
+BACKGROUNDCOLOR = (224,205,169)
+
+# Set title to the window
+pygame.display.set_caption("LAMA VS MEXICAINS")
+
+BACKGROUNDIMAGE = pygame.image.load("Macchu picchu.jpeg").convert()
+BACKGROUNDIMAGE_rect = BACKGROUNDIMAGE.get_rect() #localisation background
+screen.fill(BACKGROUNDCOLOR)
+screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
+
+#running = True
+#while running:
+    #screen.fill(BACKGROUNDCOLOR)
+    #screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
+    #all_sprites.draw(screen)
+    #pygame.display.flip()
+
+#paygame.quit()
+
 FPS = 60
 
 BADDIEMINSIZE = 10
@@ -52,9 +70,9 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 0
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_LEFT]:
-            self.speedx = -5
+            self.speedx = -7
         if keystate[pygame.K_RIGHT]:
-            self.speedx = 5
+            self.speedx = 7
         self.rect.x += self.speedx
         if self.rect.right > WINDOWWIDTH:
             self.rect.right = WINDOWWIDTH
@@ -66,6 +84,22 @@ class Player(pygame.sprite.Sprite):
         projectile = Projectile(self.rect.x, self.rect.top)
         all_sprites.add(projectile)
         projectiles.add(projectile)
+
+class Power(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load('bullet.png')
+        self.image = pygame.transform.scale(self.image, (20, 20))
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
+        self.rect.y = random.randrange(-100, -40)
+        self.speedy = -10
+
+    def update(self):
+        self.rect.centery += self.speedy
+        #make the projectile disappear when it goes off the screen
+        if self.rect.bottom < 0:
+            self.kill()
 
 
 #class mexicains par sprite
@@ -87,9 +121,9 @@ class Baddie(pygame.sprite.Sprite):
         if score > 1000:
             self.speedy = random.randrange(1, 5)
         if score > 1500:
-            self.speedy = random.randrange(2, 6)
+            self.speedy = random.randrange(2, 5)
         if score > 2000:
-            self.speedy = random.randrange(2, 7)
+            self.speedy = random.randrange(2, 6)
 
 
     #définition des mouvements
@@ -107,6 +141,8 @@ class Baddie(pygame.sprite.Sprite):
             if score > 1000:
                 self.speedy = random.randrange(1, 5)
             if score > 1500:
+                self.speedy = random.randrange(2, 5)
+            if score > 2000:
                 self.speedy = random.randrange(2, 6)
 
 all_sprites = pygame.sprite.Group()
@@ -190,7 +226,7 @@ pygame.mixer.music.load('background.mid')
 
 
 # Show the "Start" screen.
-windowSurface.fill(BACKGROUNDIMAGE)
+windowSurface.fill(BACKGROUNDCOLOR)
 drawText('Dodger', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
 drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (WINDOWHEIGHT / 3) + 50)
 pygame.display.update()
@@ -319,7 +355,7 @@ while True:
               #  baddies.remove(b)
 
         # Draw the game world on the window.
-        windowSurface.fill(BACKGROUNDIMAGE)
+        windowSurface.fill(BACKGROUNDCOLOR)
 
         # Draw the score and top score.
         drawText('Score: %s' % (score), font, windowSurface, 10, 0)
