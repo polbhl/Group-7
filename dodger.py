@@ -7,7 +7,25 @@ TEXTCOLOR = (0, 0, 0)
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
 #todo changer le fond (image, vidéo, …)
-BACKGROUNDIMAGE = (224,205,169)
+BACKGROUNDCOLOR = (224,205,169)
+
+# Set title to the window
+pygame.display.set_caption("LAMA VS MEXICAINS")
+
+BACKGROUNDIMAGE = pygame.image.load("Macchu picchu.jpeg").convert()
+BACKGROUNDIMAGE_rect = BACKGROUNDIMAGE.get_rect() #localisation background
+screen.fill(BACKGROUNDCOLOR)
+screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
+
+#running = True
+#while running:
+    #screen.fill(BACKGROUNDCOLOR)
+    #screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
+    #all_sprites.draw(screen)
+    #pygame.display.flip()
+
+#paygame.quit()
+
 FPS = 60
 
 BADDIEMINSIZE = 10
@@ -209,7 +227,7 @@ pygame.mixer.music.load('background.mid')
 
 
 # Show the "Start" screen.
-windowSurface.fill(BACKGROUNDIMAGE)
+windowSurface.fill(BACKGROUNDCOLOR)
 drawText('Dodger', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
 drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (WINDOWHEIGHT / 3) + 50)
 pygame.display.update()
@@ -331,7 +349,7 @@ while True:
               #  baddies.remove(b)
 
         # Draw the game world on the window.
-        windowSurface.fill(BACKGROUNDIMAGE)
+        windowSurface.fill(BACKGROUNDCOLOR)
 
         # Draw the score and top score.
         drawText('Score: %s' % (score), font, windowSurface, 10, 0)
