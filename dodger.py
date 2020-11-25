@@ -88,7 +88,7 @@ class Player(pygame.sprite.Sprite):
 class Power(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.type = random.choice(['carapace bleu','coeur rouge'])
+        self.type = random.choice(['carapace bleu', 'coeur rouge'])
         self.image = pygame.transform.scale(self.image, (20, 20))
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
