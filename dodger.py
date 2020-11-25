@@ -68,10 +68,10 @@ class Player(pygame.sprite.Sprite):
         projectiles.add(projectile)
 
 
-#class monstres par sprite
+#class mexicains par sprite
 class Baddie(pygame.sprite.Sprite):
-    #caractéristiques des monstres
-    #todo changer vitesse d'apparition
+    #caractéristiques des mexicains
+
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('Mexicain_pixel.png')
@@ -80,7 +80,9 @@ class Baddie(pygame.sprite.Sprite):
         self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
         self.rect.y = random.randrange(-100, -40)
         self.speedy = random.randrange(1, 3)
-        if score > 500: #augmentation de la vitese des baddies
+
+        # augmentation vitesse des mexicains
+        if score > 500:
             self.speedy = random.randrange(1, 4)
         if score > 1000:
             self.speedy = random.randrange(1, 5)
@@ -98,6 +100,8 @@ class Baddie(pygame.sprite.Sprite):
             self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
             self.rect.y = random.randrange(-100, -40)
             self.speedy = random.randrange(1, 3)
+
+            #augmentation vitesse des mexicains
             if score > 500:
                 self.speedy = random.randrange(1, 4)
             if score > 1000:
@@ -112,8 +116,9 @@ all_sprites.add(player)
 projectiles = pygame.sprite.Group()
 baddies = pygame.sprite.Group()
 
+#augmentation nombre de mexicains
 nbrdemonstre = 4
-if score > 1000: #augmentation du nombre de baddies
+if score > 1000:
     nbrdemonstre = nbrdemonstre + 1
 if score > 2000:
     nbrdemonstre = nbrdemonstre + 1
