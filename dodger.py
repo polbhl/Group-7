@@ -112,7 +112,7 @@ all_sprites.add(player)
 projectiles = pygame.sprite.Group()
 baddies = pygame.sprite.Group()
 
-nbrdemonstre = 5
+nbrdemonstre = 4
 if score > 1000: #augmentation du nombre de baddies
     nbrdemonstre = nbrdemonstre + 1
 if score > 2000:
