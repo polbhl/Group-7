@@ -109,7 +109,6 @@ class Baddie(pygame.sprite.Sprite):
             if score > 1500:
                 self.speedy = random.randrange(2, 6)
 
-
 all_sprites = pygame.sprite.Group()
 player = Player()
 all_sprites.add(player)
@@ -259,6 +258,13 @@ while True:
                  #   moveDown = False
 
         all_sprites.update()
+
+        #hitz = pygame.sprite.spritecollideany(WINDOWHEIGHT, baddies, False)
+        #if hitz:
+         #   break
+        if b.rect.top > WINDOWHEIGHT:
+            break
+
 
         hits = pygame.sprite.groupcollide(baddies, projectiles, True, True)
         for hit in hits:
