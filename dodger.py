@@ -87,9 +87,9 @@ class Baddie(pygame.sprite.Sprite):
         if score > 1000:
             self.speedy = random.randrange(1, 5)
         if score > 1500:
-            self.speedy = random.randrange(2, 6)
+            self.speedy = random.randrange(2, 5)
         if score > 2000:
-            self.speedy = random.randrange(2, 7)
+            self.speedy = random.randrange(2, 6)
 
 
     #définition des mouvements
@@ -107,6 +107,8 @@ class Baddie(pygame.sprite.Sprite):
             if score > 1000:
                 self.speedy = random.randrange(1, 5)
             if score > 1500:
+                self.speedy = random.randrange(2, 5)
+            if score > 2000:
                 self.speedy = random.randrange(2, 6)
 
 
