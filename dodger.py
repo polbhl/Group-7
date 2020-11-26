@@ -130,20 +130,20 @@ class Baddie(pygame.sprite.Sprite):
     def update(self):
         self.rect.y += self.speedy
         #les faire respawn quand ils sont hors de l'écran
-        if self.rect.top > WINDOWHEIGHT + 10:
-            self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
-            self.rect.y = random.randrange(-100, -40)
-            self.speedy = random.randrange(1, 3)
+        #if self.rect.top > WINDOWHEIGHT + 10:
+           # self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
+            #self.rect.y = random.randrange(-100, -40)
+            #self.speedy = random.randrange(1, 3)
 
             #augmentation vitesse des mexicains
-            if score > 500:
-                self.speedy = random.randrange(1, 4)
-            if score > 1000:
-                self.speedy = random.randrange(1, 5)
-            if score > 1500:
-                self.speedy = random.randrange(2, 5)
-            if score > 2000:
-                self.speedy = random.randrange(2, 6)
+        if score > 500:
+            self.speedy = random.randrange(1, 4)
+        if score > 1000:
+            self.speedy = random.randrange(1, 5)
+        if score > 1500:
+            self.speedy = random.randrange(2, 5)
+        if score > 2000:
+            self.speedy = random.randrange(2, 6)
 
 all_sprites = pygame.sprite.Group()
 player = Player()
@@ -241,6 +241,21 @@ while True:
     #moveLeft = moveRight = moveUp = moveDown = False
     reverseCheat = slowCheat = False
     #baddieAddCounter = 0
+    all_sprites = pygame.sprite.Group()
+    player = Player()
+    all_sprites.add(player)
+    projectiles = pygame.sprite.Group()
+    baddies = pygame.sprite.Group()
+
+    nbrdemonstre = 4
+    if score > 1000:
+        nbrdemonstre = nbrdemonstre + 1
+    if score > 2000:
+        nbrdemonstre = nbrdemonstre + 1
+    for i in range(nbrdemonstre):  # nombre de baddies
+        b = Baddie()
+        all_sprites.add(b)
+        baddies.add(b)
 
     #todo changer la musique du jeu
     pygame.mixer.music.play(-1, 0.0)
@@ -298,9 +313,13 @@ while True:
         #hitz = pygame.sprite.spritecollideany(WINDOWHEIGHT, baddies, False)
         #if hitz:
          #   break
-        if b.rect.top > WINDOWHEIGHT:
-            break
-
+        for i in range(nbrdemonstre):  # nombre de baddies
+            b = Baddie()
+            if i.rect.top > WINDOWHEIGHT:
+                break
+        #for mex in b: #faut isoler les baddies
+           # if mex.top > WINDOWHEIGHT:
+               # break
 
         hits = pygame.sprite.groupcollide(baddies, projectiles, True, True)
         for hit in hits:
@@ -375,9 +394,9 @@ while True:
 
         # Check if any of the baddies have hit the player.
         #if playerHasHitBaddie(playerRect, baddies):
-        #    if score > topScore:
-        #        topScore = score # set new top score
-        #    break
+        if score > topScore:
+            topScore = score # set new top score
+            #break
 
         mainClock.tick(FPS)
 
