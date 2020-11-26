@@ -130,10 +130,10 @@ class Baddie(pygame.sprite.Sprite):
     def update(self):
         self.rect.y += self.speedy
         #les faire respawn quand ils sont hors de l'écran
-        #if self.rect.top > WINDOWHEIGHT + 10:
-           # self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
-            #self.rect.y = random.randrange(-100, -40)
-            #self.speedy = random.randrange(1, 3)
+        if self.rect.top > WINDOWHEIGHT + 10:
+            self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
+            self.rect.y = random.randrange(-100, -40)
+            self.speedy = random.randrange(1, 3)
 
             #augmentation vitesse des mexicains
         if score > 500:
@@ -313,10 +313,8 @@ while True:
         #hitz = pygame.sprite.spritecollideany(WINDOWHEIGHT, baddies, False)
         #if hitz:
          #   break
-        for i in range(nbrdemonstre):  # nombre de baddies
-            b = Baddie()
-            if i.rect.top > WINDOWHEIGHT:
-                break
+        if b.rect.top > WINDOWHEIGHT:
+            break
         #for mex in b: #faut isoler les baddies
            # if mex.top > WINDOWHEIGHT:
                # break
