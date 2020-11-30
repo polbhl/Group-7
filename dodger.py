@@ -8,7 +8,7 @@ screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
 #todo changer le fond (image, vidéo, …)
 BACKGROUNDCOLOR = (224,205,169)
-
+#65
 # Set title to the window
 pygame.display.set_caption("LAMA VS MEXICAINS")
 
