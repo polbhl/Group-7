@@ -6,7 +6,7 @@ WINDOWHEIGHT = 600
 TEXTCOLOR = (0, 0, 0)
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
-#todo changer le fond (image, vidéo, …)
+#todo changer le fond (image, vidéo, …) -> Mathias, peindre
 BACKGROUNDCOLOR = (224,205,169)
 #65
 # Set title to the window
@@ -14,7 +14,7 @@ pygame.display.set_caption("LAMA VS MEXICAINS")
 
 BACKGROUNDIMAGE = pygame.image.load("Macchu picchu.jpeg").convert()
 BACKGROUNDIMAGE_rect = BACKGROUNDIMAGE.get_rect() #localisation background
-screen.fill(BACKGROUNDCOLOR)
+#screen.fill(BACKGROUNDCOLOR)
 screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
 
 #running = True
@@ -85,6 +85,8 @@ class Player(pygame.sprite.Sprite):
         all_sprites.add(projectile)
         projectiles.add(projectile)
 
+#todo bonus malus
+#apparition des power ups
 class Power(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -193,7 +195,7 @@ def drawText(text, font, surface, x, y):
 pygame.init()
 mainClock = pygame.time.Clock()
 windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
-pygame.display.set_caption('Dodger')
+pygame.display.set_caption('LAMA VS MEXICAINS')
 pygame.mouse.set_visible(False)
 
 # Set up the fonts.
@@ -225,9 +227,9 @@ pygame.mixer.music.load('background.mid')
 
 
 
-# Show the "Start" screen.
-windowSurface.fill(BACKGROUNDCOLOR)
-drawText('Dodger', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
+# ÉCRAN DE DÉMARRAGE.
+windowSurface.fill(BACKGROUNDCOLOR) #todo changer fon d'écran
+drawText('LAMA VS MEXICAINS', font, windowSurface, (WINDOWWIDTH / 4), (WINDOWHEIGHT / 3))
 drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (WINDOWHEIGHT / 3) + 50)
 pygame.display.update()
 waitForPlayerToPressKey()
@@ -257,7 +259,7 @@ while True:
         all_sprites.add(b)
         baddies.add(b)
 
-    #todo changer la musique du jeu
+    #todo changer la musique du jeu -> Paul créer une musique
     pygame.mixer.music.play(-1, 0.0)
 
     while True: # The game loop runs while the game part is playing.
@@ -406,9 +408,8 @@ while True:
     drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
     pygame.display.update()
     waitForPlayerToPressKey()
+    #todo ajouter vidéo de fin (gif)
 
     gameOverSound.stop()
 
-#todo bonus/malus
-
-#test
+#todo écrire les règles -> document word et insérer l'image
