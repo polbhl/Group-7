@@ -153,8 +153,9 @@ all_sprites.add(player)
 projectiles = pygame.sprite.Group()
 baddies = pygame.sprite.Group()
 
+
 #augmentation nombre de mexicains
-nbrdemonstre = 4
+nbrdemonstre = 5
 if score > 1000:
     nbrdemonstre = nbrdemonstre + 1
 if score > 2000:
@@ -163,6 +164,15 @@ for i in range(nbrdemonstre):#nombre de baddies
     b = Baddie()
     all_sprites.add(b)
     baddies.add(b)
+
+def game_win():
+    pygame.mixer.music.stop()
+    gameOverSound.play()
+    drawText('You Win', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
+    drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
+    pygame.display.flip()
+    waitForPlayerToPressKey()
+    gameOverSound.stop()
 
 def terminate():
     pygame.quit()
@@ -178,11 +188,11 @@ def waitForPlayerToPressKey():
                     terminate()
                 return
 
-def playerHasHitBaddie(playerRect, baddies):
-    for b in baddies:
-        if playerRect.colliderect(b['rect']):
-            return True
-    return False
+#def playerHasHitBaddie(playerRect, baddies):
+#    for b in baddies:
+ #       if playerRect.colliderect(b['rect']):
+           # return True
+    #return False
 
 
 def drawText(text, font, surface, x, y):
@@ -234,6 +244,8 @@ drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (
 pygame.display.update()
 waitForPlayerToPressKey()
 
+#win = score > 200
+
 topScore = 0
 while True:
     # Set up the start of the game.
@@ -249,7 +261,7 @@ while True:
     projectiles = pygame.sprite.Group()
     baddies = pygame.sprite.Group()
 
-    nbrdemonstre = 4
+    nbrdemonstre = 5
     if score > 1000:
         nbrdemonstre = nbrdemonstre + 1
     if score > 2000:
@@ -315,8 +327,9 @@ while True:
         #hitz = pygame.sprite.spritecollideany(WINDOWHEIGHT, baddies, False)
         #if hitz:
          #   break
-        if b.rect.top > WINDOWHEIGHT:
+        if Baddie().rect.top > WINDOWHEIGHT + 10:
             break
+
         #for mex in b: #faut isoler les baddies
            # if mex.top > WINDOWHEIGHT:
                # break
@@ -329,6 +342,7 @@ while True:
         hits = pygame.sprite.spritecollide(player, baddies, False)
         if hits:
             break
+
 
             #todo supprimer ou garder
             #if event.type == MOUSEMOTION:
@@ -396,20 +410,26 @@ while True:
         #if playerHasHitBaddie(playerRect, baddies):
         if score > topScore:
             topScore = score # set new top score
-            #break
+        if score > 300:
+            break
 
         mainClock.tick(FPS)
 
-    # Stop the game and show the "Game Over" screen.
-    pygame.mixer.music.stop()
-    gameOverSound.play()
+    if score > 300 :
+        game_win()
+        pass
 
-    drawText('GAME OVER', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
-    drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
-    pygame.display.update()
-    waitForPlayerToPressKey()
+    # Stop the game and show the "Game Over" screen.
+    else:
+        pygame.mixer.music.stop()
+        gameOverSound.play()
+
+        drawText('GAME OVER', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
+        drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
+        pygame.display.update()
+        waitForPlayerToPressKey()
     #todo ajouter vidéo de fin (gif)
 
-    gameOverSound.stop()
+        gameOverSound.stop()
 
 #todo écrire les règles -> document word et insérer l'image
