@@ -255,6 +255,16 @@ while True:
     baddies = pygame.sprite.Group()
     powerups = pygame.sprite.Group()
 
+    nbrdemonstre = 4
+    if score > 1000:
+        nbrdemonstre = nbrdemonstre + 1
+    if score > 2000:
+        nbrdemonstre = nbrdemonstre + 1
+    for i in range(nbrdemonstre):  # nombre de baddies
+        b = Baddie()
+        all_sprites.add(b)
+        baddies.add(b)
+
 
 
     #todo changer la musique du jeu -> Paul créer une musique
