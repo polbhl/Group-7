@@ -2,10 +2,10 @@ import pygame, random, sys
 from pygame.locals import *
 
 BLACK = (0, 0, 0)
-WHITE = (12, 12, 12)
+WHITE = (255, 255, 255)
 WINDOWWIDTH = 600
 WINDOWHEIGHT = 600
-TEXTCOLOR = WHITE
+TEXTCOLOR = BLACK
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
 #todo changer le fond (image, vidéo, …) -> Mathias, peindre
@@ -19,9 +19,9 @@ all_sprites = pygame.sprite.Group()
 # Set title to the window
 pygame.display.set_caption("LAMA VS MEXICAINS")
 
-BACKGROUNDIMAGE = pygame.image.load("MacchuPicchu.png").convert()
+BACKGROUNDIMAGE = pygame.image.load('MacchuPicchu.png').convert()
 BACKGROUNDIMAGE_rect = BACKGROUNDIMAGE.get_rect() #localisation background
-screen.fill(BLACK)
+screen.fill(WHITE)
 screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
 all_sprites.draw(screen)
 
@@ -246,7 +246,7 @@ gameOverSound = pygame.mixer.Sound('gameover.wav')
 pygame.mixer.music.load('background.mid')
 
 # ÉCRAN DE DÉMARRAGE.
-windowSurface.fill(BACKGROUNDCOLOR) #todo changer fon d'écran
+windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect) #todo changer fon d'écran
 drawText('LAMA VS MEXICAINS', font, windowSurface, (WINDOWWIDTH / 4), (WINDOWHEIGHT / 3))
 drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (WINDOWHEIGHT / 3) + 50)
 pygame.display.update()
@@ -340,7 +340,7 @@ while True:
             break
 
         # Draw the game world on the window.
-        windowSurface.fill(BACKGROUNDCOLOR)
+        windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
 
         # Draw the score and top score.
         drawText('Score: %s' % (score), font, windowSurface, 10, 0)
