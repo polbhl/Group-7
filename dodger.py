@@ -27,6 +27,7 @@ screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
 #paygame.quit()
 
 FPS = 60
+POWERUP_TIME = 5000 #MILISECONDES
 
 BADDIEMINSIZE = 10
 BADDIEMAXSIZE = 40
@@ -65,8 +66,17 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = WINDOWWIDTH / 2
         self.rect.bottom = WINDOWHEIGHT - 10
         self.speedx=0
+        self.power=1
+        self.power_time=pygame.time.get_ticks()
 
     def update(self):
+
+        #Temps maximum du powerup
+        if self.power >= 2 and pygame.time.get_ticks() - self.power_time >POWERUP_TIME:
+            self.power -=1
+            self.power_time = pygame.time.get_ticks()
+
+
         self.speedx = 0
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_LEFT]:
@@ -79,11 +89,26 @@ class Player(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
 
+#définition powerup
+    def powerup(self):
+        self.power += 1 #ajoute 1 tir
+        self.power_time=pygame.time.get_ticks()
+
+
 #action de tirer du lama
     def shoot(self):
-        projectile = Projectile(self.rect.x, self.rect.top)
-        all_sprites.add(projectile)
-        projectiles.add(projectile)
+        if self.power == 1:
+            projectile = Projectile(self.rect.x, self.rect.top)
+            all_sprites.add(projectile)
+            projectiles.add(projectile)
+
+        if self.power >= 2: #s'arrête à 2
+            projectile1 = Projectile(self.rect.left, self.rect.top) #spawn 1 du projectile
+            projectile2 = Projectile(self.rect.right, self.rect.top) #spawn 2 du projectile
+            all_sprites.add(projectile1)
+            all_sprites.add(projectile2)
+            projectiles.add(projectile1)
+            projectiles.add(projectile2)
 
 #todo bonus malus
 #apparition des power ups
@@ -361,13 +386,17 @@ while True:
             all_sprites.add(b)
             baddies.add(b)
 
-            if random.random() > 0.9: # 10% de chance que les powerup apparaissent
+            if random.random() > 0.7: # 30% de chance que les powerup apparaissent
                 pow = Pow(hit.rect.center)
                 all_sprites.add(pow)
                 powerups.add(pow)
 
         # check si le joueur tire sur un powerup
         hits = pygame.sprite.spritecollide(player, powerups, True)
+        for hit in hits:
+            if hit.type == 'carapace bleu':
+                player.powerup()
+
 
 
         hits = pygame.sprite.spritecollide(player, baddies, False)
