@@ -91,18 +91,21 @@ class Power(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.type = random.choice(['carapace bleu', 'coeur rouge'])
-        self.image = pygame.transform.scale(self.image, (20, 20))
+        self.image = powerup_images[self.type]
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
         self.rect.y = random.randrange(-100, -40)
-        self.speedy = -10
+        self.speedy = 5
 
     def update(self):
         self.rect.centery += self.speedy
         #make the projectile disappear when it goes off the screen
-        if self.rect.bottom < 0:
+        if self.rect.top > WINDOWHEIGHT:
             self.kill()
 
+powerup_images = {}
+powerup_images['carapace bleu'] = pygame.image.load('carapace bleu.png').convert()
+powerup_images['coeur rouge'] = pygame.image.load('coeur rouge.png').convert()
 
 #class baddies par sprite
 class Baddie(pygame.sprite.Sprite):
@@ -152,6 +155,7 @@ all_sprites = pygame.sprite.Group()
 player = Player()
 all_sprites.add(player)
 projectiles = pygame.sprite.Group()
+powerups = pygame.sprite.Group()
 
 #augmentation nombre de baddies
 nbrdemonstre = 5
