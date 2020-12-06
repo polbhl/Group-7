@@ -109,6 +109,9 @@ class Player(pygame.sprite.Sprite):
             projectiles.add(projectile1)
             projectiles.add(projectile2)
 
+    def carapacebleue(self):
+        nbrdemonstre == 0
+
 #todo bonus malus
 
 powerup_images = {}
@@ -159,6 +162,8 @@ class Baddie(pygame.sprite.Sprite):
             self.speedy = random.randrange(2, 6)
 
 
+
+
     #définition des mouvements
     def update(self):
         self.rect.y += self.speedy
@@ -186,13 +191,13 @@ all_sprites.add(player)
 projectiles = pygame.sprite.Group()
 powerups = pygame.sprite.Group()
 
-#augmentation nombre de baddies
+#sert à R
 nbrdemonstre = 5
-if score > 1000:
+if score >= 100:
     nbrdemonstre = nbrdemonstre + 1
-if score > 2000:
+if score >= 200:
     nbrdemonstre = nbrdemonstre + 1
-for i in range(nbrdemonstre):#nombre de baddies
+for i in range(nbrdemonstre):  # nombre de baddies
     b = Baddie()
     all_sprites.add(b)
     baddies.add(b)
@@ -263,9 +268,9 @@ while True:
     baddies = pygame.sprite.Group()
 
     nbrdemonstre = 5
-    if score > 1000:
+    if score >= 100:
         nbrdemonstre = nbrdemonstre + 1
-    if score > 2000:
+    if score >= 200:
         nbrdemonstre = nbrdemonstre + 1
     for i in range(nbrdemonstre):  # nombre de baddies
         b = Baddie()
@@ -326,6 +331,8 @@ while True:
             if hit.type == 'double crachat':
                 player.powerup()
 
+            if hit.type =='carapace bleu':
+                pass
 
 
         hits = pygame.sprite.spritecollide(player, baddies, False)
