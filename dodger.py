@@ -1,14 +1,14 @@
 import pygame, random, sys
 from pygame.locals import *
 
-
+BLACK = (0, 0, 0)
+WHITE = (12, 12, 12)
 WINDOWWIDTH = 600
 WINDOWHEIGHT = 600
-TEXTCOLOR = (0, 0, 0)
+TEXTCOLOR = WHITE
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
 #todo changer le fond (image, vidéo, …) -> Mathias, peindre
-BLACK = (0, 0, 0)
 BACKGROUNDCOLOR = (BLACK)
 
 all_sprites = pygame.sprite.Group()
