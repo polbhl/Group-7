@@ -17,15 +17,6 @@ BACKGROUNDIMAGE_rect = BACKGROUNDIMAGE.get_rect() #localisation background
 #screen.fill(BACKGROUNDCOLOR)
 screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
 
-#running = True
-#while running:
-    #screen.fill(BACKGROUNDCOLOR)
-    #screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
-    #all_sprites.draw(screen)
-    #pygame.display.flip()
-
-#paygame.quit()
-
 FPS = 60
 POWERUP_TIME = 5000 #MILISECONDES
 
@@ -36,8 +27,6 @@ BADDIEMAXSPEED = 10
 ADDNEWBADDIERATE = 15
 PLAYERMOVERATE = 5
 
-#Définir l'écran
-#screen=pygame.display.set_mode((WINDOWIDTH, WINDOWHEIGHT))
 score = 0
 
 #class projectiles
@@ -111,24 +100,6 @@ class Player(pygame.sprite.Sprite):
             projectiles.add(projectile2)
 
 #todo bonus malus
-#apparition des power ups
-#class Power(pygame.sprite.Sprite):
-    #def __init__(self, x, y):
-        #pygame.sprite.Sprite.__init__(self)
-        #self.type = random.choice(['carapace bleu', 'coeur rouge'])
-        #self.image = powerup_images[self.type]
-        #self.rect = self.image.get_rect()
-        #self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
-        #self.rect.y = random.randrange(-100, -40)
-        #self.speedy = 5
-
-    #def update(self):
-        #self.rect.centery += self.speedy
-        #make the projectile disappear when it goes off the screen
-        #if self.rect.top > WINDOWHEIGHT:
-            #self.kill()
-
-#Powerup Sacha
 
 powerup_images = {}
 powerup_images['carapace bleu'] = pygame.image.load('carapace bleu.png').convert()
@@ -213,14 +184,6 @@ for i in range(nbrdemonstre):#nombre de baddies
     all_sprites.add(b)
     baddies.add(b)
 
-
-
-#baddie = pygame.sprite.GroupSingle()
-
-
-
-
-
 def game_win():
     pygame.mixer.music.stop()
     gameOverSound.play()
@@ -244,13 +207,6 @@ def waitForPlayerToPressKey():
                     terminate()
                 return
 
-#def playerHasHitBaddie(playerRect, baddies):
-#    for b in baddies:
- #       if playerRect.colliderect(b['rect']):
-           # return True
-    #return False
-
-
 def drawText(text, font, surface, x, y):
     textobj = font.render(text, 1, TEXTCOLOR)
     textrect = textobj.get_rect()
@@ -271,28 +227,6 @@ font = pygame.font.SysFont(None, 48)
 gameOverSound = pygame.mixer.Sound('gameover.wav')
 pygame.mixer.music.load('background.mid')
 
-# Set up images.
-#playerImage = pygame.image.load('lama_player1.png')
-#playerRect = playerImage.get_rect()
-
-#baddieImage = pygame.image.load('baddie.png')
-
-#les crachats du lama (tentative en tout cas)
-#bullet_image=pygame.image.load('bullet.png')
-#bulletX=0
-#bulletY=480
-#bulletX_change=0
-#bulletY_change=10
-#playerX=370
-#bullet_state="ready"
-
-#def fire_bullet(x,y):
-    #global bullet_state
-    #bullet_state="fire"
-    #windowSurface.blit(bullet_image(x + 16, y + 10))
-
-
-
 # ÉCRAN DE DÉMARRAGE.
 windowSurface.fill(BACKGROUNDCOLOR) #todo changer fon d'écran
 drawText('LAMA VS MEXICAINS', font, windowSurface, (WINDOWWIDTH / 4), (WINDOWHEIGHT / 3))
@@ -304,11 +238,9 @@ waitForPlayerToPressKey()
 
 topScore = 0
 while True:
-    # Set up the start of the game.
-    #baddies = []
+
     score = 0
-    #playerRect.topleft = (WINDOWWIDTH / 2, WINDOWHEIGHT - 50) #ca fait que le lama apparaisse en bas au milieu de l'écran
-    #moveLeft = moveRight = moveUp = moveDown = False
+
     reverseCheat = slowCheat = False
     #baddieAddCounter = 0
     all_sprites = pygame.sprite.Group()
@@ -357,24 +289,8 @@ while True:
                 if event.key == K_ESCAPE:
                         terminate()
 
-                #if event.key == K_LEFT or event.key == K_a:
-                #    moveLeft = False
-                #if event.key == K_RIGHT or event.key == K_d:
-                #    moveRight = False
-                #if event.key == K_UP or event.key == K_w:
-                #    moveUp = False
-                #if event.key == K_DOWN or event.key == K_s:
-                 #   moveDown = False
-
         all_sprites.update()
 
-        #hitz = pygame.sprite.spritecollideany(WINDOWHEIGHT, baddies, False)
-        #if hitz:
-         #   break
-
-        #for ba in baddies:
-        #    if ba.rect.y > WINDOWHEIGHT:
-         #       break
 
         # game over when baddies goes off the bottom screen
         if b.rect.top > WINDOWHEIGHT:
@@ -403,50 +319,6 @@ while True:
         if hits:
             break
 
-
-            #todo supprimer ou garder
-            #if event.type == MOUSEMOTION:
-                # If the mouse moves, move the player where to the cursor.
-                #playerRect.centerx = event.pos[0]
-                #playerRect.centery = event.pos[1]
-        # Add new baddies at the top of the screen, if needed.
-        #if not reverseCheat and not slowCheat:
-            #baddieAddCounter += 1
-        #if baddieAddCounter == ADDNEWBADDIERATE:
-            #baddieAddCounter = 0
-            #baddieSize = random.randint(BADDIEMINSIZE, BADDIEMAXSIZE)
-            #newBaddie = {'rect': pygame.Rect(random.randint(0, WINDOWWIDTH - baddieSize), 0 - baddieSize, baddieSize, baddieSize),
-                        #'speed': random.randint(BADDIEMINSPEED, BADDIEMAXSPEED),
-                        #'surface':pygame.transform.scale(baddieImage, (baddieSize, baddieSize)),
-                        #}
-
-            #baddies.append(newBaddie)
-
-        # Move the player around.
-        #if moveLeft and playerRect.left > 0:
-           # playerRect.move_ip(-1 * PLAYERMOVERATE, 0)
-        #if moveRight and playerRect.right < WINDOWWIDTH:
-         #   playerRect.move_ip(PLAYERMOVERATE, 0)
-        #if moveUp and playerRect.top > 0:
-         #   playerRect.move_ip(0, -1 * PLAYERMOVERATE)
-        #if moveDown and playerRect.bottom < WINDOWHEIGHT:
-         #   playerRect.move_ip(0, PLAYERMOVERATE)
-
-
-        # Move the baddies down.
-        #for b in baddies:
-            #if not reverseCheat and not slowCheat:
-               # b['rect'].move_ip(0, b['speed'])
-           # elif reverseCheat:
-              #  b['rect'].move_ip(0, -5)
-            #elif slowCheat:
-               # b['rect'].move_ip(0, 1)
-
-        # Delete baddies that have fallen past the bottom.
-        #for b in baddies[:]:
-            #if b['rect'].top > WINDOWHEIGHT:
-              #  baddies.remove(b)
-
         # Draw the game world on the window.
         windowSurface.fill(BACKGROUNDCOLOR)
 
@@ -454,15 +326,8 @@ while True:
         drawText('Score: %s' % (score), font, windowSurface, 10, 0)
         drawText('Top Score: %s' % (topScore), font, windowSurface, 10, 40)
 
-        # Draw the player's rectangle.
-        #windowSurface.blit(playerImage, playerRect)
-
         all_sprites.draw(screen)
         #pygame.display.flip()
-
-        # Draw each baddie.
-        #for b in baddies:
-         #   windowSurface.blit(b['surface'], b['rect'])
 
         pygame.display.update()
 
