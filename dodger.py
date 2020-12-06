@@ -19,7 +19,7 @@ all_sprites = pygame.sprite.Group()
 # Set title to the window
 pygame.display.set_caption("LAMA VS MEXICAINS")
 
-BACKGROUNDIMAGE = pygame.image.load('MacchuPicchu.png').convert()
+BACKGROUNDIMAGE = pygame.image.load('MacchuPicchu.png')
 BACKGROUNDIMAGE_rect = BACKGROUNDIMAGE.get_rect() #localisation background
 screen.fill(WHITE)
 screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
@@ -115,9 +115,9 @@ class Player(pygame.sprite.Sprite):
 #todo bonus malus
 
 powerup_images = {}
-powerup_images['carapace bleu'] = pygame.image.load('carapace bleu.png').convert()
-powerup_images['coeur rouge'] = pygame.image.load('coeur rouge.png').convert()
-powerup_images['double crachat'] = pygame.image.load('douple_crachat.png').convert()
+powerup_images['carapace bleu'] = pygame.image.load('carapace bleu.png')
+powerup_images['coeur rouge'] = pygame.image.load('coeur rouge.png')
+powerup_images['double crachat'] = pygame.image.load('douple_crachat.png')
 
 
 class Pow(pygame.sprite.Sprite):
