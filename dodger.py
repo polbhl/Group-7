@@ -4,7 +4,7 @@ from pygame.locals import *
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 WINDOWWIDTH = 600
-WINDOWHEIGHT = 600
+WINDOWHEIGHT = 700
 TEXTCOLOR = BLACK
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
@@ -67,6 +67,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx=0
         self.power=1
         self.power_time=pygame.time.get_ticks()
+        self.live = 1
 
     def update(self):
 
@@ -182,6 +183,8 @@ class Baddie(pygame.sprite.Sprite):
             self.speedy = random.randrange(2, 5)
         if score > 2000:
             self.speedy = random.randrange(2, 6)
+    def destruction(self):
+        self.kill()#marche pas
 
 
 baddies = pygame.sprite.Group()
@@ -330,14 +333,20 @@ while True:
         for hit in hits:
             if hit.type == 'double crachat':
                 player.powerup()
+            if hit.type == 'coeur rouge':
+                player.live += 1
+            if hit.type == 'carapace bleue':
+                baddies.destruction()
 
-            if hit.type =='carapace bleu':
-                pass
+            #if hit.type =='carapace bleu':
+               # pass
 
 
         hits = pygame.sprite.spritecollide(player, baddies, False)
         if hits:
-            break
+            player.live -= 1
+
+
 
         # Draw the game world on the window.
         windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
@@ -355,12 +364,13 @@ while True:
         #if playerHasHitBaddie(playerRect, baddies):
         if score > topScore:
             topScore = score # set new top score
-        if score > 1000:
+        if score > 2000:
             break
-
+        if player.live == 0:
+            break
         mainClock.tick(FPS)
 
-    if score > 1000 :
+    if score > 2000 :
         game_win()
         pass
 
