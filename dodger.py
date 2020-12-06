@@ -1,21 +1,31 @@
 import pygame, random, sys
 from pygame.locals import *
 
+
 WINDOWWIDTH = 600
 WINDOWHEIGHT = 600
 TEXTCOLOR = (0, 0, 0)
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
 #todo changer le fond (image, vidéo, …) -> Mathias, peindre
-BACKGROUNDCOLOR = (224,205,169)
+BLACK = (0, 0, 0)
+BACKGROUNDCOLOR = (BLACK)
+
+all_sprites = pygame.sprite.Group()
+
+
+
 #65
 # Set title to the window
 pygame.display.set_caption("LAMA VS MEXICAINS")
 
-BACKGROUNDIMAGE = pygame.image.load("MacchuPicchu.png")
+BACKGROUNDIMAGE = pygame.image.load("MacchuPicchu.png").convert()
 BACKGROUNDIMAGE_rect = BACKGROUNDIMAGE.get_rect() #localisation background
-#screen.fill(BACKGROUNDCOLOR)
+screen.fill(BLACK)
 screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
+all_sprites.draw(screen)
+
+
 
 FPS = 60
 POWERUP_TIME = 5000 #MILISECONDES
@@ -104,11 +114,13 @@ class Player(pygame.sprite.Sprite):
 powerup_images = {}
 powerup_images['carapace bleu'] = pygame.image.load('carapace bleu.png').convert()
 powerup_images['coeur rouge'] = pygame.image.load('coeur rouge.png').convert()
+powerup_images['double crachat'] = pygame.image.load('douple_crachat.png').convert()
+
 
 class Pow(pygame.sprite.Sprite):
     def __init__(self, center):
         pygame.sprite.Sprite.__init__(self)
-        self.type = random.choice(['carapace bleu', 'coeur rouge'])
+        self.type = random.choice(['carapace bleu', 'coeur rouge', 'double crachat'])
         self.image = powerup_images[self.type]
         self.image = pygame.transform.scale(self.image, (20, 20))
         self.rect = self.image.get_rect()
@@ -165,6 +177,7 @@ class Baddie(pygame.sprite.Sprite):
             self.speedy = random.randrange(2, 5)
         if score > 2000:
             self.speedy = random.randrange(2, 6)
+
 
 baddies = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
@@ -310,7 +323,7 @@ while True:
         # check si le joueur tire sur un powerup
         hits = pygame.sprite.spritecollide(player, powerups, True)
         for hit in hits:
-            if hit.type == 'carapace bleu':
+            if hit.type == 'double crachat':
                 player.powerup()
 
 
