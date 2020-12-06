@@ -12,7 +12,7 @@ BACKGROUNDCOLOR = (224,205,169)
 # Set title to the window
 pygame.display.set_caption("LAMA VS MEXICAINS")
 
-BACKGROUNDIMAGE = pygame.image.load("Macchu picchu.jpeg").convert()
+BACKGROUNDIMAGE = pygame.image.load("MacchuPicchu.png")
 BACKGROUNDIMAGE_rect = BACKGROUNDIMAGE.get_rect() #localisation background
 #screen.fill(BACKGROUNDCOLOR)
 screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
@@ -87,15 +87,37 @@ class Player(pygame.sprite.Sprite):
 
 #todo bonus malus
 #apparition des power ups
-class Power(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+#class Power(pygame.sprite.Sprite):
+    #def __init__(self, x, y):
+        #pygame.sprite.Sprite.__init__(self)
+        #self.type = random.choice(['carapace bleu', 'coeur rouge'])
+        #self.image = powerup_images[self.type]
+        #self.rect = self.image.get_rect()
+        #self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
+        #self.rect.y = random.randrange(-100, -40)
+        #self.speedy = 5
+
+    #def update(self):
+        #self.rect.centery += self.speedy
+        #make the projectile disappear when it goes off the screen
+        #if self.rect.top > WINDOWHEIGHT:
+            #self.kill()
+
+#Powerup Sacha
+
+powerup_images = {}
+powerup_images['carapace bleu'] = pygame.image.load('carapace bleu.png').convert()
+powerup_images['coeur rouge'] = pygame.image.load('coeur rouge.png').convert()
+
+class Pow(pygame.sprite.Sprite):
+    def __init__(self, center):
         pygame.sprite.Sprite.__init__(self)
         self.type = random.choice(['carapace bleu', 'coeur rouge'])
         self.image = powerup_images[self.type]
+        self.image = pygame.transform.scale(self.image, (20, 20))
         self.rect = self.image.get_rect()
-        self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
-        self.rect.y = random.randrange(-100, -40)
-        self.speedy = 5
+        self.rect.center = center
+        self.speedy = 3
 
     def update(self):
         self.rect.centery += self.speedy
@@ -103,9 +125,7 @@ class Power(pygame.sprite.Sprite):
         if self.rect.top > WINDOWHEIGHT:
             self.kill()
 
-powerup_images = {}
-powerup_images['carapace bleu'] = pygame.image.load('carapace bleu.png').convert()
-powerup_images['coeur rouge'] = pygame.image.load('coeur rouge.png').convert()
+powerups=pygame.sprite.Group()
 
 #class baddies par sprite
 class Baddie(pygame.sprite.Sprite):
@@ -298,19 +318,7 @@ while True:
                     reverseCheat = True
                 if event.key == K_x:
                     slowCheat = True
-                #if event.key == K_LEFT or event.key == K_a:
-                  #  moveRight = False
-                 #   moveLeft = True
-                #if event.key == K_RIGHT or event.key == K_d:
-                #    moveLeft = False
-                #    moveRight = True
-                #if event.key == K_UP or event.key == K_w:
-                #    moveDown = False
-                #    moveUp = True
-                #if event.key == K_DOWN or event.key == K_s:
-                #    moveUp = False
-                 #   moveDown = True
-                #make that the player shoot projectile when we press space
+
                 if event.key == K_SPACE:
                     player.shoot()
 
@@ -352,6 +360,16 @@ while True:
             b = Baddie()
             all_sprites.add(b)
             baddies.add(b)
+
+            if random.random() > 0.9: # 10% de chance que les powerup apparaissent
+                pow = Pow(hit.rect.center)
+                all_sprites.add(pow)
+                powerups.add(pow)
+
+        # check si le joueur tire sur un powerup
+        hits = pygame.sprite.spritecollide(player, powerups, True)
+
+
         hits = pygame.sprite.spritecollide(player, baddies, False)
         if hits:
             break
