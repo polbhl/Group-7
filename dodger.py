@@ -268,10 +268,24 @@ pygame.mouse.set_visible(False)
 font = pygame.font.SysFont(None, 48)
 
 # Sons
-gameOverSound = pygame.mixer.Sound('gameover.wav')
 pygame.mixer.music.load('battleThemeA.mp3')
+
+#todo sons gameover
+gameOverSound = pygame.mixer.Sound('gameover.wav')
+
+#todo win sound
 #WinSound = pyggame.mixer.Sound()
 pewshot = pygame.mixer.Sound('LASRGun_Blaster star wars 4 (ID 1760)_LS.wav')
+
+#todo sons mort des mexicains
+#mort1 = pygame.mixer.Sound('Paul1.wav')
+#mort2 = pygame.mixer.Sound('Paul2.wav')
+#mort3 = pygame.mixer.Sound('Paul3.wav')
+#mort4 = pygame.mixer.Sound('Paul4.wav')
+#mort5 = pygame.mixer.Sound('Paul5.wav')
+#mort6 = pygame.mixer.Sound('Paul6.wav')
+#mort7 = pygame.mixer.Sound('Paul7.wav')
+#mort8 = pygame.mixer.Sound('Paul8.wav')
 
 # ÉCRAN DE DÉMARRAGE.
 windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect) #todo changer fon d'écran
@@ -344,6 +358,7 @@ while True:
 
         hits = pygame.sprite.groupcollide(baddies, projectiles, True, True)
         for hit in hits:
+           # random.choice(['mort1','mort2','mort3','mort4','mort5','mort6','mort7''mort8']).play()
             b = Baddie()
             all_sprites.add(b)
             baddies.add(b)
