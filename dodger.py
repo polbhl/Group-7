@@ -4,7 +4,7 @@ from pygame.locals import *
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 WINDOWWIDTH = 600
-WINDOWHEIGHT = 700
+WINDOWHEIGHT = 600
 TEXTCOLOR = BLACK
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
@@ -67,7 +67,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx=0
         self.power=1
         self.power_time=pygame.time.get_ticks()
-        self.live = 1
+        self.lives = 1
 
     def update(self):
 
@@ -119,6 +119,8 @@ powerup_images = {}
 powerup_images['carapace bleu'] = pygame.image.load('carapace bleu.png')
 powerup_images['coeur rouge'] = pygame.image.load('coeur rouge.png')
 powerup_images['double crachat'] = pygame.image.load('douple_crachat.png')
+coeur_img = pygame.image.load('coeur rouge.png')
+coeur_img_mini = pygame.transform.scale(coeur_img, (20, 20))
 
 
 class Pow(pygame.sprite.Sprite):
@@ -213,6 +215,14 @@ def game_win():
     pygame.display.flip()
     waitForPlayerToPressKey()
     gameOverSound.stop()
+
+def draw_lives(surface, x, y, lives, img):
+    for i in range(lives):
+        img_rect = coeur_img_mini.get_rect()
+        img_rect.x = x + 30 * i
+        img_rect.y = y
+        surface.blit(coeur_img_mini, img_rect)
+
 
 def terminate():
     pygame.quit()
@@ -334,7 +344,7 @@ while True:
             if hit.type == 'double crachat':
                 player.powerup()
             if hit.type == 'coeur rouge':
-                player.live += 1
+                player.lives += 1
             if hit.type == 'carapace bleue':
                 baddies.destruction()
 
@@ -344,7 +354,7 @@ while True:
 
         hits = pygame.sprite.spritecollide(player, baddies, False)
         if hits:
-            player.live -= 1
+            player.lives -= 1
 
 
 
@@ -354,19 +364,21 @@ while True:
         # Draw the score and top score.
         drawText('Score: %s' % (score), font, windowSurface, 10, 0)
         drawText('Top Score: %s' % (topScore), font, windowSurface, 10, 40)
-
+        draw_lives(screen, WINDOWWIDTH - 100, 5, player.lives, coeur_img_mini)
         all_sprites.draw(screen)
-        #pygame.display.flip()
+
 
         pygame.display.update()
 
+
+        #pygame.display.flip()
         # Check if any of the baddies have hit the player.
         #if playerHasHitBaddie(playerRect, baddies):
         if score > topScore:
             topScore = score # set new top score
         if score > 2000:
             break
-        if player.live == 0:
+        if player.lives == 0:
             break
         mainClock.tick(FPS)
 
