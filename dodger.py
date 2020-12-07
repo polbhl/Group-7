@@ -189,7 +189,10 @@ class Baddie(pygame.sprite.Sprite):
         if score > 2000:
             self.speedy = random.randrange(2, 6)
     def destruction(self):
-        self.kill()#marche pas
+        if self.rect.top < WINDOWHEIGHT:
+            self.kill()
+            #self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
+            #self.rect.y = random.randrange(-100, -40)
 
 
 baddies = pygame.sprite.Group()
@@ -200,16 +203,13 @@ projectiles = pygame.sprite.Group()
 powerups = pygame.sprite.Group()
 
 #sert à R
-nbrdemonstre = 5 # y a que cette ligne qui sert
-if score >= 100:
-    nbrdemonstre = nbrdemonstre + 1
-if score >= 200:
-    nbrdemonstre = nbrdemonstre + 1
-for i in range(nbrdemonstre):  # nombre de baddies
-    b = Baddie()
-    all_sprites.add(b)
-    baddies.add(b)
 
+#for i in range(nbrdemonstre):  # nombre de baddies
+#    b = Baddie()
+#    all_sprites.add(b)
+ #   baddies.add(b)
+
+#fonction qui fait qu'on gagne le jeu
 def game_win():
     pygame.mixer.music.stop()
     gameOverSound.play()
@@ -351,7 +351,14 @@ while True:
 
         all_sprites.update()
 
-
+        if score >= 100:
+            nbrdemonstre = nbrdemonstre + 1
+        if score >= 200:
+            nbrdemonstre = nbrdemonstre + 1
+        #for i in range(nbrdemonstre):  # nombre de baddies
+            #b = Baddie()
+            #all_sprites.add(b)
+            #baddies.add(b)
         # game over when baddies goes off the bottom screen
         if b.rect.top > WINDOWHEIGHT:
             player.lives -= 1
@@ -374,10 +381,11 @@ while True:
             if hit.type == 'double crachat':
                 player.powerup()
             if hit.type == 'coeur rouge':
-                player.lives += 1
+                if player.lives < 3:
+                    player.lives += 1
 
             if hit.type == 'carapace bleue':
-                destruction()
+                b.destruction()
 
             #if hit.type =='carapace bleu':
                # pass
