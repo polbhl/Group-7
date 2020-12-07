@@ -115,6 +115,7 @@ class Player(pygame.sprite.Sprite):
 
 #todo bonus malus
 
+#Données du jeu chargées
 powerup_images = {}
 powerup_images['carapace bleu'] = pygame.image.load('carapace bleu.png')
 powerup_images['coeur rouge'] = pygame.image.load('coeur rouge.png')
@@ -264,9 +265,9 @@ pygame.mouse.set_visible(False)
 # Set up the fonts.
 font = pygame.font.SysFont(None, 48)
 
-# Set up sounds.
+# Sons
 gameOverSound = pygame.mixer.Sound('gameover.wav')
-pygame.mixer.music.load('background.mid')
+pygame.mixer.music.load('battleThemeA.mp3')
 
 # ÉCRAN DE DÉMARRAGE.
 windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect) #todo changer fon d'écran
@@ -300,7 +301,7 @@ while True:
         all_sprites.add(b)
         baddies.add(b)
 
-    #todo changer la musique du jeu -> Paul créer une musique
+
     pygame.mixer.music.play(-1, 0.0)
 
     while True: # The game loop runs while the game part is playing.
