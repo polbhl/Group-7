@@ -67,7 +67,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx=0
         self.power=1
         self.power_time=pygame.time.get_ticks()
-        self.lives = 1
+        self.lives = 0
 
     def update(self):
 
@@ -197,7 +197,7 @@ projectiles = pygame.sprite.Group()
 powerups = pygame.sprite.Group()
 
 #sert à R
-nbrdemonstre = 5
+nbrdemonstre = 5 # y a que cette ligne qui sert
 if score >= 100:
     nbrdemonstre = nbrdemonstre + 1
 if score >= 200:
@@ -227,6 +227,16 @@ def draw_lives(surface, x, y, lives, img):
 def terminate():
     pygame.quit()
     sys.exit()
+
+def game_over():
+    pygame.mixer.music.stop()
+    gameOverSound.play()
+
+    drawText('GAME OVER', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
+    drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
+    pygame.display.update()
+    waitForPlayerToPressKey()
+    gameOverSound.stop()
 
 def waitForPlayerToPressKey():
     while True:
@@ -325,7 +335,7 @@ while True:
 
         # game over when baddies goes off the bottom screen
         if b.rect.top > WINDOWHEIGHT:
-            break
+            player.lives -= 1
 
         hits = pygame.sprite.groupcollide(baddies, projectiles, True, True)
         for hit in hits:
@@ -345,17 +355,17 @@ while True:
                 player.powerup()
             if hit.type == 'coeur rouge':
                 player.lives += 1
+
             if hit.type == 'carapace bleue':
-                baddies.destruction()
+                destruction()
 
             #if hit.type =='carapace bleu':
                # pass
 
 
-        hits = pygame.sprite.spritecollide(player, baddies, False)
-        if hits:
+        hitz = pygame.sprite.spritecollide(player, baddies, True)
+        if hitz:
             player.lives -= 1
-
 
 
         # Draw the game world on the window.
@@ -371,32 +381,26 @@ while True:
         pygame.display.update()
 
 
-        #pygame.display.flip()
+        #pygame.display.flip() #pas supprimer cette ligne
         # Check if any of the baddies have hit the player.
         #if playerHasHitBaddie(playerRect, baddies):
         if score > topScore:
             topScore = score # set new top score
         if score > 2000:
             break
-        if player.lives == 0:
+        if hitz and player.lives < 0:
             break
+        #if b.rect.top > WINDOWHEIGHT and player.lives > 0:
+            #break
         mainClock.tick(FPS)
 
     if score > 2000 :
         game_win()
-        pass
+        #pass
 
     # Stop the game and show the "Game Over" screen.
     else:
-        pygame.mixer.music.stop()
-        gameOverSound.play()
+        game_over()
 
-        drawText('GAME OVER', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
-        drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
-        pygame.display.update()
-        waitForPlayerToPressKey()
-    #todo ajouter vidéo de fin (gif)
-
-        gameOverSound.stop()
 
 #todo écrire les règles -> document word et insérer l'image
