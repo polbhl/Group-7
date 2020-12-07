@@ -101,6 +101,7 @@ class Player(pygame.sprite.Sprite):
             projectile = Projectile(self.rect.x, self.rect.top)
             all_sprites.add(projectile)
             projectiles.add(projectile)
+            pewshot.play()
 
         if self.power >= 2: #s'arrête à 2
             projectile1 = Projectile(self.rect.left, self.rect.top) #spawn 1 du projectile
@@ -109,6 +110,7 @@ class Player(pygame.sprite.Sprite):
             all_sprites.add(projectile2)
             projectiles.add(projectile1)
             projectiles.add(projectile2)
+            pewshot.play()
 
     def carapacebleue(self):
         nbrdemonstre == 0
@@ -268,6 +270,8 @@ font = pygame.font.SysFont(None, 48)
 # Sons
 gameOverSound = pygame.mixer.Sound('gameover.wav')
 pygame.mixer.music.load('battleThemeA.mp3')
+#WinSound = pyggame.mixer.Sound()
+pewshot = pygame.mixer.Sound('LASRGun_Blaster star wars 4 (ID 1760)_LS.wav')
 
 # ÉCRAN DE DÉMARRAGE.
 windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect) #todo changer fon d'écran
