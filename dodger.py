@@ -19,7 +19,7 @@ all_sprites = pygame.sprite.Group()
 # Set title to the window
 pygame.display.set_caption("LAMA VS MEXICAINS")
 
-BACKGROUNDIMAGE = pygame.image.load('MP_peinture.jpg ')
+BACKGROUNDIMAGE = pygame.image.load('MP_peinture.jpg')
 BACKGROUNDIMAGE_rect = BACKGROUNDIMAGE.get_rect() #localisation background
 screen.fill(WHITE)
 screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
@@ -219,12 +219,12 @@ powerups = pygame.sprite.Group()
 #fonction qui fait qu'on gagne le jeu
 def game_win():
     pygame.mixer.music.stop()
-    gameOverSound.play()
+    WinSound.play()
     drawText('You Win', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
     drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
     pygame.display.flip()
     waitForPlayerToPressKey()
-    gameOverSound.stop()
+    WinSound.stop()
 
 def draw_lives(surface, x, y, lives, img):
     for i in range(lives):
@@ -275,13 +275,15 @@ pygame.mouse.set_visible(False)
 font = pygame.font.SysFont(None, 48)
 
 # Sons
-pygame.mixer.music.load('battleThemeA.mp3')
+pygame.mixer.music.load('MusiqueJeu.mp3')
 
-#todo sons gameover
-gameOverSound = pygame.mixer.Sound('gameover.wav')
+#gameover sound
+gameOverSound = pygame.mixer.Sound('MarioKart64GameOver.mp3')
 
-#todo win sound
-#WinSound = pyggame.mixer.Sound()
+#win sound
+WinSound = pygame.mixer.Sound('WinSound.mp3')
+
+#tir de crachat
 pewshot = pygame.mixer.Sound('LASRGun_Blaster star wars 4 (ID 1760)_LS.wav')
 
 #todo sons mort des mexicains
@@ -372,7 +374,7 @@ while True:
 
         hits = pygame.sprite.groupcollide(baddies, projectiles, True, True)
         for hit in hits:
-           # random.choice(['mort1','mort2','mort3','mort4','mort5','mort6','mort7''mort8']).play()
+            #random.choice(['mort1','mort2','mort3','mort4','mort5','mort6','mort7''mort8']).play()
             b = Baddie()
             all_sprites.add(b)
             baddies.add(b)
@@ -391,8 +393,10 @@ while True:
                 if player.lives < 3:
                     player.lives += 1
 
+            #todo carapace bleu ça quitte le jeu
             if hit.type == 'carapace bleu':
-                b.destruction()
+                pass
+                #b.destruction()
                 #Baddie().remove() #MDR ça rajoute un baddie au total, c'est ce qu'on cherchait à faire avant
                 #baddies.kill()
                 #b = Baddie()
