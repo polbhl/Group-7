@@ -4,7 +4,7 @@ from pygame.locals import *
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 WINDOWWIDTH = 600
-WINDOWHEIGHT = 600
+WINDOWHEIGHT = 700
 TEXTCOLOR = BLACK
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
@@ -19,7 +19,7 @@ all_sprites = pygame.sprite.Group()
 # Set title to the window
 pygame.display.set_caption("LAMA VS MEXICAINS")
 
-BACKGROUNDIMAGE = pygame.image.load('MP_peinture.png')
+BACKGROUNDIMAGE = pygame.image.load('MP_peinture.jpg ')
 BACKGROUNDIMAGE_rect = BACKGROUNDIMAGE.get_rect() #localisation background
 screen.fill(WHITE)
 screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
