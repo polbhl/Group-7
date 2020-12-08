@@ -19,7 +19,7 @@ all_sprites = pygame.sprite.Group()
 # Set title to the window
 pygame.display.set_caption("LAMA VS MEXICAINS")
 
-BACKGROUNDIMAGE = pygame.image.load('MacchuPicchu.png')
+BACKGROUNDIMAGE = pygame.image.load('MP_peinture.png')
 BACKGROUNDIMAGE_rect = BACKGROUNDIMAGE.get_rect() #localisation background
 screen.fill(WHITE)
 screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
@@ -112,8 +112,7 @@ class Player(pygame.sprite.Sprite):
             projectiles.add(projectile2)
             pewshot.play()
 
-    def carapacebleue(self):
-        nbrdemonstre == 0
+
 
 #todo bonus malus
 
@@ -156,6 +155,7 @@ class Baddie(pygame.sprite.Sprite):
         self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
         self.rect.y = random.randrange(-100, -40)
         self.speedy = random.randrange(1, 3)
+        #pygame.sprite.Sprite.__init__(Baddie.group)
 
         # augmentation vitesse des baddies
         if score > 500:
@@ -188,9 +188,13 @@ class Baddie(pygame.sprite.Sprite):
             self.speedy = random.randrange(2, 5)
         if score > 2000:
             self.speedy = random.randrange(2, 6)
-    def destruction(self):
-        if self.rect.top < WINDOWHEIGHT:
-            self.kill()
+    def destruction(self, Baddie):
+        #if self.rect.y < WINDOWHEIGHT:
+        #self.kill()
+        for sprite in self:
+            if isinstance(sprite, Baddie):
+                sprite.kill()
+
             #self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
             #self.rect.y = random.randrange(-100, -40)
 
@@ -198,9 +202,11 @@ class Baddie(pygame.sprite.Sprite):
 baddies = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 player = Player()
+baddie = Baddie()
 all_sprites.add(player)
 projectiles = pygame.sprite.Group()
 powerups = pygame.sprite.Group()
+#Baddies = pygame.sprite.Group.sprites()
 
 #sert à R
 
@@ -384,8 +390,15 @@ while True:
                 if player.lives < 3:
                     player.lives += 1
 
-            if hit.type == 'carapace bleue':
+            if hit.type == 'carapace bleu':
                 b.destruction()
+                #Baddie().remove() #MDR ça rajoute un baddie au total, c'est ce qu'on cherchait à faire avant
+                #baddies.kill()
+                #b = Baddie()
+                #all_sprites.add(b)
+                #baddies.add(b)
+
+
 
             #if hit.type =='carapace bleu':
                # pass
