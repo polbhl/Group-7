@@ -19,7 +19,8 @@ all_sprites = pygame.sprite.Group()
 # Set title to the window
 pygame.display.set_caption("LAMA VS MEXICAINS")
 
-BACKGROUNDIMAGE = pygame.image.load('MP_peinture.jpg')
+BACKGROUNDIMAGE = pygame.image.load('MP_peinture_off.jpg')
+pygame.transform.scale(BACKGROUNDIMAGE, (600, 700))
 BACKGROUNDIMAGE_rect = BACKGROUNDIMAGE.get_rect() #localisation background
 screen.fill(WHITE)
 screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
