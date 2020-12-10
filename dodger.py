@@ -4,7 +4,7 @@ from pygame.locals import *
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 WINDOWWIDTH = 600
-WINDOWHEIGHT = 700
+WINDOWHEIGHT = 695
 TEXTCOLOR = BLACK
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
@@ -68,7 +68,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx=0
         self.power=1
         self.power_time=pygame.time.get_ticks()
-        self.lives = 0
+        self.lives = 3
 
     def update(self):
 
@@ -169,6 +169,14 @@ class Baddie(pygame.sprite.Sprite):
         if score > 2000:
             self.speedy = random.randrange(2, 6)
 
+    def freeze(self):
+        self.speedy = 0.5
+
+    def screenoff (self):
+        if self.rect.top > WINDOWHEIGHT:
+            player.lives -=1
+
+
 
 
 
@@ -208,7 +216,7 @@ baddie = Baddie()
 all_sprites.add(player)
 projectiles = pygame.sprite.Group()
 powerups = pygame.sprite.Group()
-#Baddies = pygame.sprite.Group.sprites()
+#baddies = pygame.sprite.Group.sprites()
 
 #sert à R
 
@@ -216,6 +224,8 @@ powerups = pygame.sprite.Group()
 #    b = Baddie()
 #    all_sprites.add(b)
  #   baddies.add(b)
+
+
 
 #fonction qui fait qu'on gagne le jeu
 def game_win():
@@ -304,6 +314,9 @@ drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (
 pygame.display.update()
 waitForPlayerToPressKey()
 
+#for ba in baddies:
+    #ba=BA
+    #break
 #win = score > 200
 
 topScore = 0
@@ -358,20 +371,42 @@ while True:
                     score = 0
                 if event.key == K_ESCAPE:
                         terminate()
-
+#44
         all_sprites.update()
 
         if score >= 100:
-            nbrdemonstre = nbrdemonstre + 1
+            nbrdemonstre == nbrdemonstre + 1
         if score >= 200:
-            nbrdemonstre = nbrdemonstre + 1
+            nbrdemonstre == nbrdemonstre + 1
         #for i in range(nbrdemonstre):  # nombre de baddies
             #b = Baddie()
             #all_sprites.add(b)
             #baddies.add(b)
+
         # game over when baddies goes off the bottom screen
-        if b.rect.top > WINDOWHEIGHT:
-            player.lives -= 1
+
+        for ba in baddies:
+            if ba.rect.top > WINDOWHEIGHT:
+
+                if player.lives > 0:
+                    player.lives -= 1
+
+
+
+               # bre
+            break
+        print("jaienviedemourir")
+        #print("ok")
+
+
+
+
+
+
+
+
+
+
 
         hits = pygame.sprite.groupcollide(baddies, projectiles, True, True)
         for hit in hits:
@@ -396,23 +431,27 @@ while True:
 
             #todo carapace bleu ça quitte le jeu
             if hit.type == 'carapace bleu':
-                pass
+                for ba in baddies:
+                    ba.kill()
                 #b.destruction()
                 #Baddie().remove() #MDR ça rajoute un baddie au total, c'est ce qu'on cherchait à faire avant
-                #baddies.kill()
-                #b = Baddie()
-                #all_sprites.add(b)
-                #baddies.add(b)
+                    b = Baddie()
+                    all_sprites.add(b)
+                    baddies.add(b)
 
 
 
-            #if hit.type =='carapace bleu':
+            if hit.type =='freeze':
+                Baddie().freeze()
                # pass
 
 
         hitz = pygame.sprite.spritecollide(player, baddies, True)
         if hitz:
             player.lives -= 1
+
+
+
 
 
         # Draw the game world on the window.
@@ -437,6 +476,11 @@ while True:
             break
         if hitz and player.lives < 0:
             break
+
+        #for ba in baddies:
+            #if ba.rect.top > WINDOWHEIGHT and player.lives == 0:
+                #break
+
         #if b.rect.top > WINDOWHEIGHT and player.lives > 0:
             #break
         mainClock.tick(FPS)
