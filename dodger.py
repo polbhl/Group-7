@@ -68,7 +68,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx=0
         self.power=1
         self.power_time=pygame.time.get_ticks()
-        self.lives = 3
+        self.lives = 0
 
     def update(self):
 
@@ -387,14 +387,13 @@ while True:
 
         for ba in baddies:
             if ba.rect.top > WINDOWHEIGHT:
-
-                if player.lives > 0:
-                    player.lives -= 1
+                player.lives -= 1 #le problème c'est qu'il répète l'opération cinq fois (comme le nombre de baddies)
+                break
 
 
 
                # bre
-            break
+
         print("jaienviedemourir")
         #print("ok")
 
@@ -476,6 +475,10 @@ while True:
             break
         if hitz and player.lives < 0:
             break
+        #for ba in baddies:
+        if ba.rect.top > WINDOWHEIGHT and player.lives == 0:
+            break
+
 
         #for ba in baddies:
             #if ba.rect.top > WINDOWHEIGHT and player.lives == 0:
