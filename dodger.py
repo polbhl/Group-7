@@ -68,7 +68,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx=0
         self.power=1
         self.power_time=pygame.time.get_ticks()
-        self.lives = 0
+        self.lives = 2
 
     def update(self):
 
@@ -171,6 +171,7 @@ class Baddie(pygame.sprite.Sprite):
 
     def freeze(self):
         self.speedy = 0.5
+        self.time = pygame.time.get_ticks()
 
     def screenoff (self):
         if self.rect.top > WINDOWHEIGHT:
@@ -216,9 +217,18 @@ baddie = Baddie()
 all_sprites.add(player)
 projectiles = pygame.sprite.Group()
 powerups = pygame.sprite.Group()
-#baddies = pygame.sprite.Group.sprites()
+#ba=pygame.sprite.Group(Baddie)
 
-#sert à R
+#baddie = pygame.sprite.Group.sprites(Baddie)
+
+
+
+def ennemis(nbmonstre):
+    for i in range(nbmonstre):
+        b = Baddie()
+        all_sprites.add(b)
+        baddies.add(b)
+
 
 #for i in range(nbrdemonstre):  # nombre de baddies
 #    b = Baddie()
@@ -314,9 +324,8 @@ drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (
 pygame.display.update()
 waitForPlayerToPressKey()
 
-#for ba in baddies:
-    #ba=BA
-    #break
+
+
 #win = score > 200
 
 topScore = 0
@@ -331,17 +340,17 @@ while True:
     all_sprites.add(player)
     projectiles = pygame.sprite.Group()
     baddies = pygame.sprite.Group()
+    nbmonstre=5
+    ennemis(nbmonstre)
 
-    nbrdemonstre = 5
-    if score >= 100:
-        nbrdemonstre = nbrdemonstre + 1
-    if score >= 200:
-        nbrdemonstre = nbrdemonstre + 1
-    for i in range(nbrdemonstre):  # nombre de baddies
-        b = Baddie()
-        all_sprites.add(b)
-        baddies.add(b)
+    #nbrdemonstre =5
 
+    #for i in range(nbrdemonstre):  # nombre de baddies
+        #b = Baddie()
+        #all_sprites.add(b)
+        #baddies.add(b)
+    #if score >= 100:
+        #ennemis(6)
 
     pygame.mixer.music.play(-1, 0.0)
 
@@ -349,9 +358,12 @@ while True:
         score += 1 # Increase score.
 
 
+
+
         for event in pygame.event.get():
             if event.type == QUIT:
-                terminate()
+                terminate().append
+
 
             if event.type == KEYDOWN:
                 if event.key == K_z:
@@ -372,12 +384,15 @@ while True:
                 if event.key == K_ESCAPE:
                         terminate()
 #44
-        all_sprites.update()
 
-        if score >= 100:
-            nbrdemonstre == nbrdemonstre + 1
-        if score >= 200:
-            nbrdemonstre == nbrdemonstre + 1
+
+
+
+        if score == 100:
+            ennemis(1)
+
+        if score == 200:
+            ennemis(1)
         #for i in range(nbrdemonstre):  # nombre de baddies
             #b = Baddie()
             #all_sprites.add(b)
@@ -385,10 +400,14 @@ while True:
 
         # game over when baddies goes off the bottom screen
 
-        for ba in baddies:
-            if ba.rect.top > WINDOWHEIGHT:
-                player.lives -= 1 #le problème c'est qu'il répète l'opération cinq fois (comme le nombre de baddies)
-                break
+        #for ba in baddies [1]:
+        #if Baddie()[1].rect.top > WINDOWHEIGHT:
+            #player.lives -= 1 #le problème c'est qu'il répète l'opération cinq fois (comme le nombre de baddies)
+                #break
+
+        if baddie.rect.top > WINDOWHEIGHT:
+            terminate()
+
 
 
 
@@ -396,9 +415,6 @@ while True:
 
         print("jaienviedemourir")
         #print("ok")
-
-
-
 
 
 
@@ -449,8 +465,7 @@ while True:
         if hitz:
             player.lives -= 1
 
-
-
+        all_sprites.update()
 
 
         # Draw the game world on the window.
@@ -476,8 +491,8 @@ while True:
         if hitz and player.lives < 0:
             break
         #for ba in baddies:
-        if ba.rect.top > WINDOWHEIGHT and player.lives == 0:
-            break
+       # if ba.rect.top > WINDOWHEIGHT and player.lives == 0:
+        #    break
 
 
         #for ba in baddies:
