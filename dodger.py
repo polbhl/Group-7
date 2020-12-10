@@ -68,7 +68,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx=0
         self.power=1
         self.power_time=pygame.time.get_ticks()
-        self.lives = 2
+        self.lives = 0
 
     def update(self):
 
@@ -340,6 +340,7 @@ while True:
     all_sprites.add(player)
     projectiles = pygame.sprite.Group()
     baddies = pygame.sprite.Group()
+    baddie = Baddie()
     nbmonstre=5
     ennemis(nbmonstre)
 
@@ -388,15 +389,12 @@ while True:
 
 
 
-        if score == 100:
+        if score == 400:
             ennemis(1)
 
-        if score == 200:
+        if score == 800:
             ennemis(1)
-        #for i in range(nbrdemonstre):  # nombre de baddies
-            #b = Baddie()
-            #all_sprites.add(b)
-            #baddies.add(b)
+
 
         # game over when baddies goes off the bottom screen
 
@@ -405,8 +403,10 @@ while True:
             #player.lives -= 1 #le problème c'est qu'il répète l'opération cinq fois (comme le nombre de baddies)
                 #break
 
-        if baddie.rect.top > WINDOWHEIGHT:
-            terminate()
+        for bad in baddies:
+            if bad.rect.top > WINDOWHEIGHT:
+                player.lives -= 1
+            break
 
 
 
@@ -490,9 +490,10 @@ while True:
             break
         if hitz and player.lives < 0:
             break
-        #for ba in baddies:
-       # if ba.rect.top > WINDOWHEIGHT and player.lives == 0:
-        #    break
+        #for bad in baddies:
+        if bad.rect.top > WINDOWHEIGHT and player.lives < 0:
+                break
+
 
 
         #for ba in baddies:
