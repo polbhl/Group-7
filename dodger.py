@@ -173,10 +173,6 @@ class Baddie(pygame.sprite.Sprite):
         self.speedy = 0.5
         self.time = pygame.time.get_ticks()
 
-    def screenoff (self):
-        if self.rect.top > WINDOWHEIGHT:
-            player.lives -=1
-
 
 
 
@@ -188,7 +184,13 @@ class Baddie(pygame.sprite.Sprite):
         if self.rect.top > WINDOWHEIGHT + 10:
             self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
             self.rect.y = random.randrange(-100, -40)
-            #elf.speedy = random.randrange(1, 3)
+            self.speedy = random.randrange(1, 3)
+        if self.rect.top > WINDOWHEIGHT:
+            player.lives -= 1
+            self.kill()
+        self.condition = self.rect.top > WINDOWHEIGHT and player.lives < 0
+
+
 
             #augmentation vitesse des baddies
         if score > 500:
@@ -200,8 +202,6 @@ class Baddie(pygame.sprite.Sprite):
         if score > 2000:
             self.speedy = random.randrange(2, 6)
     def destruction(self, Baddie):
-        #if self.rect.y < WINDOWHEIGHT:
-        #self.kill()
         for sprite in self:
             if isinstance(sprite, Baddie):
                 sprite.kill()
@@ -229,6 +229,7 @@ def ennemis(nbmonstre):
         all_sprites.add(b)
         baddies.add(b)
 
+#badd = ennemis[]
 
 #for i in range(nbrdemonstre):  # nombre de baddies
 #    b = Baddie()
@@ -325,9 +326,6 @@ pygame.display.update()
 waitForPlayerToPressKey()
 
 
-
-#win = score > 200
-
 topScore = 0
 while True:
 
@@ -358,12 +356,9 @@ while True:
     while True: # The game loop runs while the game part is playing.
         score += 1 # Increase score.
 
-
-
-
         for event in pygame.event.get():
             if event.type == QUIT:
-                terminate().append
+                terminate()
 
 
             if event.type == KEYDOWN:
@@ -384,45 +379,19 @@ while True:
                     score = 0
                 if event.key == K_ESCAPE:
                         terminate()
-#44
-
-
-
-
         if score == 400:
             ennemis(1)
 
         if score == 800:
             ennemis(1)
 
-
         # game over when baddies goes off the bottom screen
-
-        #for ba in baddies [1]:
-        #if Baddie()[1].rect.top > WINDOWHEIGHT:
-            #player.lives -= 1 #le problème c'est qu'il répète l'opération cinq fois (comme le nombre de baddies)
-                #break
-
-        for bad in baddies:
-            if bad.rect.top > WINDOWHEIGHT:
-                player.lives -= 1
-            break
-
-
-
-
-               # bre
-
-        print("jaienviedemourir")
-        #print("ok")
-
-
-
-
-
-
-
-
+        #for bad in baddies:
+            #if bad.rect.top > WINDOWHEIGHT:
+             #   player.lives -= 1
+            #break
+        #if badd > WINDOWHEIGHT:
+         #   terminate()
         hits = pygame.sprite.groupcollide(baddies, projectiles, True, True)
         for hit in hits:
             #random.choice(['mort1','mort2','mort3','mort4','mort5','mort6','mort7''mort8']).play()
@@ -454,18 +423,15 @@ while True:
                     all_sprites.add(b)
                     baddies.add(b)
 
-
-
             if hit.type =='freeze':
                 Baddie().freeze()
                # pass
-
 
         hitz = pygame.sprite.spritecollide(player, baddies, True)
         if hitz:
             player.lives -= 1
 
-        all_sprites.update()
+
 
 
         # Draw the game world on the window.
@@ -478,32 +444,30 @@ while True:
         all_sprites.draw(screen)
 
 
-        pygame.display.update()
 
 
-        #pygame.display.flip() #pas supprimer cette ligne
+
+
         # Check if any of the baddies have hit the player.
         #if playerHasHitBaddie(playerRect, baddies):
         if score > topScore:
             topScore = score # set new top score
-        if score > 2000:
-            break
-        if hitz and player.lives < 0:
-            break
+        #if score > 2000:
+         #   break
+        #if hitz and player.lives < 0:
+         #   break
         #for bad in baddies:
-        if bad.rect.top > WINDOWHEIGHT and player.lives < 0:
-                break
-
-
-
-        #for ba in baddies:
-            #if ba.rect.top > WINDOWHEIGHT and player.lives == 0:
+         #   if bad.rect.bottom == WINDOWHEIGHT + 10: #and player.lives == 0:
+          #      print("hello")
                 #break
-
-        #if b.rect.top > WINDOWHEIGHT and player.lives > 0:
-            #break
+           # break
+        if player.lives < 0:
+            break
+        all_sprites.update()   # break
+        pygame.display.update()
+        all_sprites.draw(screen)
         mainClock.tick(FPS)
-
+        pygame.display.flip()  # pas supprimer cette ligne
     if score > 2000 :
         game_win()
         #pass
