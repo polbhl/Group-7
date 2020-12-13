@@ -122,7 +122,7 @@ class Player(pygame.sprite.Sprite):
 class Pow(pygame.sprite.Sprite):
     def __init__(self, center):
         pygame.sprite.Sprite.__init__(self)
-        self.type = random.choice(['carapace bleu', 'coeur rouge', 'double crachat','freeze','speed'])
+        self.type = random.choice(['carapace bleu', 'coeur rouge', 'double crachat'])
         self.image = powerup_images[self.type]
         self.image = pygame.transform.scale(self.image, (20, 20))
         self.rect = self.image.get_rect()
