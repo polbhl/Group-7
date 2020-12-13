@@ -103,7 +103,7 @@ class Player(pygame.sprite.Sprite):
 #action de tirer du lama
     def shoot(self):
         if self.power == 1:
-            projectile = Projectile(self.rect.x, self.rect.top)
+            projectile = Projectile(self.rect.centerx, self.rect.top)
             all_sprites.add(projectile)
             projectiles.add(projectile)
             #pewshot.play()
