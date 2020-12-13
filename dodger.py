@@ -24,9 +24,14 @@ screen.fill(WHITE)
 screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
 all_sprites.draw(screen)
 BACKGROUNDCELEBRATION = pygame.image.load('celebration-confetti-red.png')
-#BACKGROUNDCELEBRATION = pygame.transform.scale(BACKGROUNDCELEBRATION, (1000, 1100))
+#BACKGROUNDCELEBRATION = pygame.transform.scale(BACKGROUNDCELEBRATION, (900, 1000))
 BACKGROUNDCELEBRATION_rect = BACKGROUNDCELEBRATION.get_rect()
 screen.blit(BACKGROUNDCELEBRATION, BACKGROUNDCELEBRATION_rect)
+
+BACKGROUNDLAMA = pygame.image.load('lama_marrant2.jpg')
+BACKGROUNDLAMA_rect = BACKGROUNDLAMA.get_rect()
+screen.blit(BACKGROUNDLAMA, BACKGROUNDLAMA_rect)
+
 
 
 FPS = 60
@@ -170,7 +175,7 @@ class Baddie(pygame.sprite.Sprite):
         if self.rect.top > WINDOWHEIGHT + 50:
             self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
             self.rect.y = random.randrange(-100, -40)
-            self.speedy = random.randrange (1, 3)
+            self.speedy = 1
 
         if self.rect.top > WINDOWHEIGHT:
             player.lives -= 1
@@ -251,6 +256,7 @@ def ennemis(nbmonstre):
 #fonction qui fait qu'on gagne le jeu
 def game_win():
     screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
+    screen.blit(BACKGROUNDCELEBRATION, BACKGROUNDCELEBRATION_rect)
     pygame.mixer.music.stop()
     WinSound.play()
     drawText('You Win', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
@@ -274,7 +280,6 @@ def terminate():
 
 def game_over():
     screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
-    screen.blit(BACKGROUNDCELEBRATION, BACKGROUNDCELEBRATION_rect)
     pygame.mixer.music.stop()
     gameOverSound.play()
     conf(10)
@@ -343,7 +348,8 @@ lifeLost = pygame.mixer.Sound ('Paul5.mp3') #quand on perd une vie
 
 # ÉCRAN DE DÉMARRAGE.
 #windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
-screen.fill(BLACK)
+#screen.fill(BLACK)
+screen.blit(BACKGROUNDLAMA, BACKGROUNDLAMA_rect)
 drawTexts('LAMA VS MEXICAINS', font, windowSurface, (WINDOWWIDTH / 4) - 20, (WINDOWHEIGHT / 3) - 100)
 drawText('BONUS : ', font3, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) - 10)
 drawText('HEART : You win an extra life', font3, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 15)
