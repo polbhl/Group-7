@@ -174,13 +174,15 @@ class Baddie(pygame.sprite.Sprite):
 
         if self.powe == 1:
             if score > 500:
-                self.speedy = random.randrange(1, 4)
+                self.speedy = random.randrange(1, 3)
             if score > 1000:
-                self.speedy = random.randrange(1, 5)
-            if score > 1500:
                 self.speedy = random.randrange(2, 5)
+            if score > 1500:
+                self.speedy = random.randrange(3, 6)
             if score > 2000:
-                self.speedy = random.randrange(2, 6)
+                self.speedy = random.randrange(4, 7)
+            if score > 2500:
+                self.speedy = random.randrange(5,8)
 
         if self.powe == 2:
             print("réussite")
@@ -350,6 +352,21 @@ while True:
         if score == 800:
             ennemis(1)
 
+        if score == 1200:
+            ennemis(1)
+
+        if score == 1600:
+            ennemis(1)
+
+        if score == 2000:
+            ennemis(1)
+
+        if score == 2400:
+            ennemis(1)
+
+        if score == 2800:
+            ennemis(1)
+
         hits = pygame.sprite.groupcollide(baddies, projectiles, True, True)
         for hit in hits:
             b = Baddie()
@@ -357,7 +374,7 @@ while True:
             baddies.add(b)
             mortMexicain.play()
 
-            if random.random() > 0.7: # 30% de chance que les powerup apparaissent
+            if random.random() > 0.85: # 15% de chance que les powerup apparaissent
                 pow = Pow(hit.rect.center)
                 all_sprites.add(pow)
                 powerups.add(pow)
