@@ -159,10 +159,10 @@ class Baddie(pygame.sprite.Sprite):
         self.powe_time = pygame.time.get_ticks()
         #pygame.sprite.Sprite.__init__(Baddie.group)
 
-    def freeze(self):
-        self.powe += 1 #ajoute 1 tir
-        self.powe_time = pygame.time.get_ticks()
-        print("salut")
+    #def freeze(self):
+     #   self.powe += 1 #ajoute 1 tir
+     #   self.powe_time = pygame.time.get_ticks()
+     #   print("salut")
 
     #définition des mouvements
     def update(self):
@@ -172,13 +172,6 @@ class Baddie(pygame.sprite.Sprite):
             self.rect.y = random.randrange(-100, -40)
             self.speedy = random.randrange (1, 3)
 
-        if self.rect.top > WINDOWHEIGHT:
-            player.lives -= 1
-            self.kill()
-        #wewe
-
-
-        if self.powe == 1:
             if score > 500:
                 self.speedy = random.randrange(1, 2)
             if score > 1000:
@@ -189,6 +182,15 @@ class Baddie(pygame.sprite.Sprite):
                 self.speedy = random.randrange(3, 5)
             if score > 2500:
                 self.speedy = random.randrange(4, 6)
+
+        if self.rect.top > WINDOWHEIGHT:
+            player.lives -= 1
+            self.kill()
+        #wewe
+
+
+        #if self.powe == 1:
+
 
         if self.powe == 2:
             print("réussite")
@@ -257,7 +259,9 @@ def game_win():
     drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
     conf(10)
     pygame.display.flip()
-    waitForPlayerToPressKey()
+    #waitForPlayerToPressKey()
+    if event.type == K_SPACE:
+        terminate()
     WinSound.stop()
 
 def draw_lives(surface, x, y, lives, img):
@@ -283,6 +287,8 @@ def game_over():
     conf(10)
     pygame.display.update()
     waitForPlayerToPressKey()
+    #if event.key == K_SPACE or event.key == K_LEFT or event.key == K_RIGHT:
+
     gameOverSound.stop()
 
 def waitForPlayerToPressKey():
