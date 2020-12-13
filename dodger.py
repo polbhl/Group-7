@@ -247,7 +247,7 @@ def game_over():
     drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
     pygame.display.update()
     waitForPlayerToPressKey()
-    gameOverjusSound.stop()
+    gameOverSound.stop()
 
 def waitForPlayerToPressKey():
     while True:
@@ -260,7 +260,13 @@ def waitForPlayerToPressKey():
                 return
 
 def drawText(text, font, surface, x, y):
-    textobj = font.render(text, 1, TEXTCOLOR)
+    textobj = font.render(text, 1, WHITE)
+    textrect = textobj.get_rect()
+    textrect.topleft = (x, y)
+    surface.blit(textobj, textrect)
+
+def drawTexts(text, font, surface, x, y):
+    textobj = font.render(text, 1, (253, 108, 158))
     textrect = textobj.get_rect()
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
@@ -294,9 +300,16 @@ lifeup = pygame.mixer.Sound ('MarioBros1Life.mp3') #gagner une vie
 #mort8 = pygame.mixer.Sound('Paul8.wav')
 
 # ÉCRAN DE DÉMARRAGE.
-windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
-drawText('LAMA VS MEXICAINS', font, windowSurface, (WINDOWWIDTH / 4), (WINDOWHEIGHT / 3))
-drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (WINDOWHEIGHT / 3) + 50)
+#windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
+screen.fill(BLACK)
+drawTexts('LAMA VS MEXICAINS', font, windowSurface, (WINDOWWIDTH / 4), (WINDOWHEIGHT / 3) - 30)
+drawText('BONUS : ', font, windowSurface, (WINDOWWIDTH / 3) - 100, (WINDOWHEIGHT / 3))
+drawText('LIFE : Not die when mexican goes out of the screen', font, windowSurface, (WINDOWWIDTH / 3)- 100, (WINDOWHEIGHT / 3) + 30)
+drawText('BLUE TURTLE : All mexicans die', font, windowSurface, (WINDOWWIDTH / 3)- 100, (WINDOWHEIGHT / 3) + 60)
+drawText('DOUBLE SPIT : You shoot two bullet at a time', font, windowSurface, (WINDOWWIDTH / 3) - 100, (WINDOWHEIGHT / 3) + 90)
+drawText('FREEZE : Mexicans are moving slower', font, windowSurface, (WINDOWWIDTH / 3) - 100, (WINDOWHEIGHT / 3) + 120)
+drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) , (WINDOWHEIGHT / 3) + 150)
+
 pygame.display.update()
 waitForPlayerToPressKey()
 
