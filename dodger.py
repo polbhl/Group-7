@@ -9,6 +9,7 @@ WINDOWHEIGHT = 695
 TEXTCOLOR = GREY
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
+
 BACKGROUNDCOLOR = (BLACK)
 
 all_sprites = pygame.sprite.Group()
@@ -22,6 +23,11 @@ BACKGROUNDIMAGE_rect = BACKGROUNDIMAGE.get_rect() #localisation background
 screen.fill(WHITE)
 screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
 all_sprites.draw(screen)
+BACKGROUNDCELEBRATION = pygame.image.load('celebration-confetti-red.png')
+#BACKGROUNDCELEBRATION = pygame.transform.scale(BACKGROUNDCELEBRATION, (1000, 1100))
+BACKGROUNDCELEBRATION_rect = BACKGROUNDCELEBRATION.get_rect()
+screen.blit(BACKGROUNDCELEBRATION, BACKGROUNDCELEBRATION_rect)
+
 
 FPS = 60
 POWERUP_TIME = 5000 #MILISECONDES
@@ -103,7 +109,7 @@ class Player(pygame.sprite.Sprite):
 #action de tirer du lama
     def shoot(self):
         if self.power == 1:
-            projectile = Projectile(self.rect.centerx, self.rect.top)
+            projectile = Projectile(self.rect.centerx-10, self.rect.top)
             all_sprites.add(projectile)
             projectiles.add(projectile)
             #pewshot.play()
@@ -193,7 +199,34 @@ class Baddie(pygame.sprite.Sprite):
             if isinstance(sprite, Baddie):
                 sprite.kill()
 
+
+class Fest(pygame.sprite.Sprite):
+    #caractéristiques des baddies
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load('bullet.png')
+        self.image = pygame.transform.scale(self.image, (20, 20))
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
+        self.rect.y = random.randrange(-100, -40)
+        self.speedy = random.randrange(1, 3)
+
+    #définition des mouvements
+    def update(self):
+        self.rect.y += self.speedy
+        if self.rect.top > WINDOWHEIGHT + 50:
+            self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
+            self.rect.y = random.randrange(-100, -40)
+            self.speedy = random.randrange (1, 3)
+
+        if self.rect.top > WINDOWHEIGHT:
+            self.kill()
+        #wewe
+
+
 baddies = pygame.sprite.Group()
+fests = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 player = Player()
 baddie = Baddie()
@@ -201,6 +234,13 @@ all_sprites.add(player)
 projectiles = pygame.sprite.Group()
 powerups = pygame.sprite.Group()
 #ba=pygame.sprite.Group(Baddie)
+
+
+def conf(nconf):
+    for i in range(nconf):
+        c = Fest()
+        all_sprites.add(c)
+        fests.add(c)
 
 def ennemis(nbmonstre):
     for i in range(nbmonstre):
@@ -210,10 +250,12 @@ def ennemis(nbmonstre):
 
 #fonction qui fait qu'on gagne le jeu
 def game_win():
+    screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
     pygame.mixer.music.stop()
     WinSound.play()
     drawText('You Win', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
     drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
+    conf(10)
     pygame.display.flip()
     waitForPlayerToPressKey()
     WinSound.stop()
@@ -231,11 +273,14 @@ def terminate():
     sys.exit()
 
 def game_over():
+    screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
+    screen.blit(BACKGROUNDCELEBRATION, BACKGROUNDCELEBRATION_rect)
     pygame.mixer.music.stop()
     gameOverSound.play()
-
+    conf(10)
     drawText('GAME OVER', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
     drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
+    conf(10)
     pygame.display.update()
     waitForPlayerToPressKey()
     gameOverSound.stop()
@@ -249,6 +294,17 @@ def waitForPlayerToPressKey():
                 if event.key == K_ESCAPE: # Pressing ESC quits.
                     terminate()
                 return
+
+def waitForPlayerToPressB():
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                terminate()
+            if event.type == KEYDOWN:
+                 if event.key == K_ESCAPE:# Pressing ESC quits.
+                    terminate()
+                 if event.key == ord('z'):
+                    return
 
 def drawText(text, font2, surface, x, y):
     textobj = font2.render(text, 1, WHITE)
@@ -290,9 +346,9 @@ lifeLost = pygame.mixer.Sound ('Paul5.mp3') #quand on perd une vie
 screen.fill(BLACK)
 drawTexts('LAMA VS MEXICAINS', font, windowSurface, (WINDOWWIDTH / 4) - 20, (WINDOWHEIGHT / 3) - 100)
 drawText('BONUS : ', font3, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) - 10)
-drawText('HEART : You win an extra life', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 15)
-drawText('BLUE TURTLE : All Mexicans die', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 40)
-drawText('DOUBLE SPIT : You shoot two bullet at a time', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 65)
+drawText('HEART : You win an extra life', font3, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 15)
+drawText('BLUE TURTLE : All Mexicans die', font3, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 40)
+drawText('DOUBLE SPIT : You shoot two bullet at a time', font3, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 65)
 drawText('Press space to shoot', font3, windowSurface, (WINDOWWIDTH / 3) , (WINDOWHEIGHT / 3) + 110)
 drawText('Press the right and left arrows to move around', font3, windowSurface, (WINDOWWIDTH / 3) - 115, (WINDOWHEIGHT / 3) + 140)
 
@@ -320,6 +376,7 @@ while True:
     baddie = Baddie()
     nbmonstre=5
     ennemis(nbmonstre)
+
 
     pygame.mixer.music.play(-1, 0.0)
 
@@ -422,11 +479,13 @@ while True:
             topScore = score # set new top score
         if player.lives < 0:
             break
+            conf(10)
         all_sprites.update()
         pygame.display.update()
         all_sprites.draw(screen)
         mainClock.tick(FPS)
-        pygame.display.flip()  # pas supprimer cette ligne
+        pygame.display.flip()
+        # pas supprimer cette ligne
     if score > 3000 :
         game_win()
         #pass
@@ -434,5 +493,8 @@ while True:
     # Stop the game and show the "Game Over" screen.
     else:
         game_over()
+
+
+
 
 #todo écrire les règles -> document word et insérer l'image
