@@ -3,19 +3,16 @@ from pygame.locals import *
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+SAND = (198, 166, 100)
 WINDOWWIDTH = 600
 WINDOWHEIGHT = 695
-TEXTCOLOR = BLACK
+TEXTCOLOR = SAND
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
-#todo changer le fond (image, vidéo, …) -> Mathias, peindre
 BACKGROUNDCOLOR = (BLACK)
 
 all_sprites = pygame.sprite.Group()
 
-
-
-#65
 # Set title to the window
 pygame.display.set_caption("LAMA VS MEXICAINS")
 
@@ -25,8 +22,6 @@ BACKGROUNDIMAGE_rect = BACKGROUNDIMAGE.get_rect() #localisation background
 screen.fill(WHITE)
 screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
 all_sprites.draw(screen)
-
-
 
 FPS = 60
 POWERUP_TIME = 5000 #MILISECONDES
@@ -73,7 +68,7 @@ class Player(pygame.sprite.Sprite):
     def update(self):
 
         #Temps maximum du powerup
-        if self.power >= 2 and pygame.time.get_ticks() - self.power_time >POWERUP_TIME:
+        if self.power >= 2 and pygame.time.get_ticks() - self.power_time > POWERUP_TIME:
             self.power -=1
             self.power_time = pygame.time.get_ticks()
 
@@ -95,14 +90,13 @@ class Player(pygame.sprite.Sprite):
         self.power += 1 #ajoute 1 tir
         self.power_time=pygame.time.get_ticks()
 
-
 #action de tirer du lama
     def shoot(self):
         if self.power == 1:
             projectile = Projectile(self.rect.x, self.rect.top)
             all_sprites.add(projectile)
             projectiles.add(projectile)
-            pewshot.play()
+            #pewshot.play()
 
         if self.power >= 2: #s'arrête à 2
             projectile1 = Projectile(self.rect.left, self.rect.top) #spawn 1 du projectile
@@ -111,9 +105,7 @@ class Player(pygame.sprite.Sprite):
             all_sprites.add(projectile2)
             projectiles.add(projectile1)
             projectiles.add(projectile2)
-            pewshot.play()
-
-
+            #pewshot.play()
 
 #todo bonus malus
 
@@ -268,7 +260,7 @@ def game_over():
     drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
     pygame.display.update()
     waitForPlayerToPressKey()
-    gameOverSound.stop()
+    gameOverjusSound.stop()
 
 def waitForPlayerToPressKey():
     while True:
@@ -298,15 +290,10 @@ font = pygame.font.SysFont(None, 48)
 
 # Sons
 pygame.mixer.music.load('MusiqueJeu.mp3')
-
-#gameover sound
-gameOverSound = pygame.mixer.Sound('MarioKart64GameOver.mp3')
-
-#win sound
-WinSound = pygame.mixer.Sound('WinSound.mp3')
-
-#tir de crachat
-pewshot = pygame.mixer.Sound('LASRGun_Blaster star wars 4 (ID 1760)_LS.wav')
+gameOverSound = pygame.mixer.Sound('MarioKart64GameOver.mp3') #gameover sound
+WinSound = pygame.mixer.Sound('WinSound.mp3') #win sound
+pewshot = pygame.mixer.Sound('LASRGun_Blaster star wars 4 (ID 1760)_LS.wav') #tir de crachat
+CarapaceBleuPop = pygame.mixer.Sound ('PopBallon.mp3') #explosion des mexciains
 
 #todo sons mort des mexicains
 #mort1 = pygame.mixer.Sound('Paul1.wav')
@@ -319,7 +306,7 @@ pewshot = pygame.mixer.Sound('LASRGun_Blaster star wars 4 (ID 1760)_LS.wav')
 #mort8 = pygame.mixer.Sound('Paul8.wav')
 
 # ÉCRAN DE DÉMARRAGE.
-windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect) #todo changer fon d'écran
+windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
 drawText('LAMA VS MEXICAINS', font, windowSurface, (WINDOWWIDTH / 4), (WINDOWHEIGHT / 3))
 drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (WINDOWHEIGHT / 3) + 50)
 pygame.display.update()
@@ -413,26 +400,20 @@ while True:
                 if player.lives < 3:
                     player.lives += 1
 
-            #todo carapace bleu ça quitte le jeu
             if hit.type == 'carapace bleu':
                 for ba in baddies:
                     ba.kill()
-                #b.destruction()
-                #Baddie().remove() #MDR ça rajoute un baddie au total, c'est ce qu'on cherchait à faire avant
                     b = Baddie()
                     all_sprites.add(b)
                     baddies.add(b)
+                    CarapaceBleuPop.play()
 
             if hit.type =='freeze':
                 Baddie().freeze()
-               # pass
 
         hitz = pygame.sprite.spritecollide(player, baddies, True)
         if hitz:
             player.lives -= 1
-
-
-
 
         # Draw the game world on the window.
         windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
@@ -444,26 +425,13 @@ while True:
         all_sprites.draw(screen)
 
 
-
-
-
-
         # Check if any of the baddies have hit the player.
         #if playerHasHitBaddie(playerRect, baddies):
         if score > topScore:
             topScore = score # set new top score
-        #if score > 2000:
-         #   break
-        #if hitz and player.lives < 0:
-         #   break
-        #for bad in baddies:
-         #   if bad.rect.bottom == WINDOWHEIGHT + 10: #and player.lives == 0:
-          #      print("hello")
-                #break
-           # break
         if player.lives < 0:
             break
-        all_sprites.update()   # break
+        all_sprites.update()
         pygame.display.update()
         all_sprites.draw(screen)
         mainClock.tick(FPS)
@@ -475,6 +443,5 @@ while True:
     # Stop the game and show the "Game Over" screen.
     else:
         game_over()
-
 
 #todo écrire les règles -> document word et insérer l'image
