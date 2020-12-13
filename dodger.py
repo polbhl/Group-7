@@ -283,21 +283,14 @@ font = pygame.font.SysFont(None, 48)
 
 # Sons
 pygame.mixer.music.load('MusiqueJeu.mp3')
-gameOverSound = pygame.mixer.Sound('MarioKart64GameOver.mp3') #gameover sound
+gameOverSound = pygame.mixer.Sound('Paul6.mp3') #gameover sound
 WinSound = pygame.mixer.Sound('WinSound.mp3') #win sound
 pewshot = pygame.mixer.Sound('LASRGun_Blaster star wars 4 (ID 1760)_LS.wav') #tir de crachat
 CarapaceBleuPop = pygame.mixer.Sound ('PopBallon.mp3') #explosion des mexciains
 lifeup = pygame.mixer.Sound ('MarioBros1Life.mp3') #gagner une vie
-
-#todo sons mort des mexicains
-#mort1 = pygame.mixer.Sound('Paul1.wav')
-#mort2 = pygame.mixer.Sound('Paul2.wav')
-#mort3 = pygame.mixer.Sound('Paul3.wav')
-#mort4 = pygame.mixer.Sound('Paul4.wav')
-#mort5 = pygame.mixer.Sound('Paul5.wav')
-#mort6 = pygame.mixer.Sound('Paul6.wav')
-#mort7 = pygame.mixer.Sound('Paul7.wav')
-#mort8 = pygame.mixer.Sound('Paul8.wav')
+freezeSound = pygame.mixer.Sound ('freeze.wav') #quand les mexicains freeze
+mortMexicain = pygame.mixer.Sound ('mortMexicain.mp3') #mexicain meurt
+lifeLost = pygame.mixer.Sound ('Paul5.mp3') #quand on perd une vie
 
 # ÉCRAN DE DÉMARRAGE.
 #windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
@@ -312,7 +305,6 @@ drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) , (WIND
 
 pygame.display.update()
 waitForPlayerToPressKey()
-
 
 topScore = 0
 while True:
@@ -382,10 +374,10 @@ while True:
          #   terminate()
         hits = pygame.sprite.groupcollide(baddies, projectiles, True, True)
         for hit in hits:
-            #random.choice(['mort1','mort2','mort3','mort4','mort5','mort6','mort7''mort8']).play()
             b = Baddie()
             all_sprites.add(b)
             baddies.add(b)
+            mortMexicain.play()
 
             if random.random() > 0.7: # 30% de chance que les powerup apparaissent
                 pow = Pow(hit.rect.center)
@@ -397,6 +389,7 @@ while True:
         for hit in hits:
             if hit.type == 'double crachat':
                 player.powerup()
+
             if hit.type == 'coeur rouge':
                 lifeup.play()
                 if player.lives < 3:
@@ -417,6 +410,7 @@ while True:
         hitz = pygame.sprite.spritecollide(player, baddies, True)
         if hitz:
             player.lives -= 1
+            lifeLost.play()
 
         # Draw the game world on the window.
         windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
