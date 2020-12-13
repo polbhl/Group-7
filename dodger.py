@@ -178,7 +178,7 @@ class Baddie(pygame.sprite.Sprite):
             if score > 1000:
                 self.speedy = random.randrange(2, 4)
             if score > 1500:
-                self.speedy = random.randrange(3, 6)
+                self.speedy = random.randrange(3, 5)
             if score > 2000:
                 self.speedy = random.randrange(4, 6)
             if score > 2500:
@@ -364,9 +364,6 @@ while True:
             ennemis(1)
 
         if score == 2400:
-            ennemis(1)
-
-        if score == 2800:
             ennemis(1)
 
         hits = pygame.sprite.groupcollide(baddies, projectiles, True, True)
