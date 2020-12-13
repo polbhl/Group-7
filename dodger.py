@@ -35,6 +35,17 @@ PLAYERMOVERATE = 5
 
 score = 0
 
+#Données du jeu chargées
+powerup_images = {}
+powerup_images['carapace bleu'] = pygame.image.load('carapace bleu.png')
+powerup_images['coeur rouge'] = pygame.image.load('coeur-rougeoff.png')
+powerup_images['double crachat'] = pygame.image.load('douple_crachat.png')
+powerup_images['freeze'] = pygame.image.load('cold-face.png')
+coeur_img = pygame.image.load('coeur-rougeoff.png')
+coeur_img_mini = pygame.transform.scale(coeur_img, (20, 20))
+powerup_images['speed'] = pygame.image.load('RedFace.png')
+#gameOverGIF = pygame.movie.Movie('GameOverPinata.mpg')
+
 #class projectiles
 class Projectile(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -108,20 +119,10 @@ class Player(pygame.sprite.Sprite):
 
 #todo bonus malus
 
-#Données du jeu chargées
-powerup_images = {}
-powerup_images['carapace bleu'] = pygame.image.load('carapace bleu.png')
-powerup_images['coeur rouge'] = pygame.image.load('coeur-rougeoff.png')
-powerup_images['double crachat'] = pygame.image.load('douple_crachat.png')
-powerup_images['freeze'] = pygame.image.load('cold-face.png')
-coeur_img = pygame.image.load('coeur-rougeoff.png')
-coeur_img_mini = pygame.transform.scale(coeur_img, (20, 20))
-
-
 class Pow(pygame.sprite.Sprite):
     def __init__(self, center):
         pygame.sprite.Sprite.__init__(self)
-        self.type = random.choice(['carapace bleu', 'coeur rouge', 'double crachat','freeze'])
+        self.type = random.choice(['carapace bleu', 'coeur rouge', 'double crachat','freeze','speed'])
         self.image = powerup_images[self.type]
         self.image = pygame.transform.scale(self.image, (20, 20))
         self.rect = self.image.get_rect()
@@ -149,72 +150,44 @@ class Baddie(pygame.sprite.Sprite):
         self.rect.y = random.randrange(-100, -40)
         self.speedy = random.randrange(1, 3)
         self.powe = 1
-        #self.powe_time = pygame.time.get_ticks()
+        self.powe_time = pygame.time.get_ticks()
         #pygame.sprite.Sprite.__init__(Baddie.group)
 
-        # augmentation vitesse des baddies
-        #if score > 500:
-        #    self.speedy = random.randrange(1, 4)
-        #if score > 1000:
-         #   self.speedy = random.randrange(1, 5)
-        #if score > 1500:
-         #   self.speedy = random.randrange(2, 5)
-        #if score > 2000:
-         #   self.speedy = random.randrange(2, 6)
-
-
-
+    def freeze(self):
+        self.powe += 1 #ajoute 1 tir
+        self.powe_time = pygame.time.get_ticks()
+        print("salut")
 
     #définition des mouvements
     def update(self):
         self.rect.y += self.speedy
-        self.speedy
-        #les faire respawn quand ils sont hors de l'écran
-        if self.rect.top > WINDOWHEIGHT + 10:
-            self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
-            self.rect.y = random.randrange(-100, -40)
-            self.speedy = random.randrange(1, 3)
+
         if self.rect.top > WINDOWHEIGHT:
             player.lives -= 1
             self.kill()
-        #if self.powe > 2 and pygame.time.get_ticks() - self.powe_time > POWERUP_TIME:
-         #   self.powe -= 1
-            #self.powe_time = pygame.time.get_ticks()
-            #augmentation vitesse des baddies
+
         if self.powe == 1:
-            self.speedy = 3
-            #if score > 500:
-                #self.speedy = random.randrange(1, 4)
-            #if score > 1000:
-             #   self.speedy = random.randrange(1, 5)
-            #if score > 1500:
-             #   self.speedy = random.randrange(2, 5)
-            #if score > 2000:
-             #   self.speedy = random.randrange(2, 6)
-        if self.powe > 1:
+
+            if score > 500:
+                self.speedy = random.randrange(1, 4)
+
+            if score > 1000:
+                self.speedy = random.randrange(1, 5)
+
+            if score > 1500:
+                self.speedy = random.randrange(2, 5)
+
+            if score > 2000:
+                self.speedy = random.randrange(2, 6)
+
+        if self.powe == 2:
             print("réussite")
-            self.speedy == self.speedy*3
-
-    def freeze(self):
-        self.powe += 1 #ajoute 1 tir
-        #self.powe_time = pygame.time.get_ticks()
-        print("salut")
-        print(self.powe)
-        #if self.powe == 2:
-         #   print("rt")
-          #  self.speedy == self.speedy*4
-
-
+            self.speedy = 10
 
     def destruction(self, Baddie):
         for sprite in self:
             if isinstance(sprite, Baddie):
                 sprite.kill()
-
-            #self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
-            #self.rect.y = random.randrange(-100, -40)
-
-
 
 baddies = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
@@ -256,12 +229,14 @@ def terminate():
 def game_over():
     pygame.mixer.music.stop()
     gameOverSound.play()
+    #gameOverGIF.play()
 
     drawText('GAME OVER', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
     drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
     pygame.display.update()
     waitForPlayerToPressKey()
     gameOverSound.stop()
+    #gameOverGIF.stop()
 
 def waitForPlayerToPressKey():
     while True:
@@ -339,15 +314,6 @@ while True:
     nbmonstre=5
     ennemis(nbmonstre)
 
-    #nbrdemonstre =5
-
-    #for i in range(nbrdemonstre):  # nombre de baddies
-        #b = Baddie()
-        #all_sprites.add(b)
-        #baddies.add(b)
-    #if score >= 100:
-        #ennemis(6)
-
     pygame.mixer.music.play(-1, 0.0)
 
     while True: # The game loop runs while the game part is playing.
@@ -382,13 +348,6 @@ while True:
         if score == 800:
             ennemis(1)
 
-        # game over when baddies goes off the bottom screen
-        #for bad in baddies:
-            #if bad.rect.top > WINDOWHEIGHT:
-             #   player.lives -= 1
-            #break
-        #if badd > WINDOWHEIGHT:
-         #   terminate()
         hits = pygame.sprite.groupcollide(baddies, projectiles, True, True)
         for hit in hits:
             b = Baddie()
@@ -412,6 +371,7 @@ while True:
                 if player.lives < 3:
                     player.lives += 1
 
+
             if hit.type == 'carapace bleu':
                 for ba in baddies:
                     ba.kill()
@@ -422,8 +382,6 @@ while True:
 
             if hit.type =='freeze':
                 Baddie().freeze()
-
-
 
         hitz = pygame.sprite.spritecollide(player, baddies, True)
         if hitz:
@@ -438,7 +396,6 @@ while True:
         drawText('Top Score: %s' % (topScore), font, windowSurface, 10, 40)
         draw_lives(screen, WINDOWWIDTH - 100, 5, player.lives, coeur_img_mini)
         all_sprites.draw(screen)
-
 
         # Check if any of the baddies have hit the player.
         #if playerHasHitBaddie(playerRect, baddies):
