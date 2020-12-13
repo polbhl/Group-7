@@ -211,24 +211,11 @@ projectiles = pygame.sprite.Group()
 powerups = pygame.sprite.Group()
 #ba=pygame.sprite.Group(Baddie)
 
-#baddie = pygame.sprite.Group.sprites(Baddie)
-
-
-
 def ennemis(nbmonstre):
     for i in range(nbmonstre):
         b = Baddie()
         all_sprites.add(b)
         baddies.add(b)
-
-#badd = ennemis[]
-
-#for i in range(nbrdemonstre):  # nombre de baddies
-#    b = Baddie()
-#    all_sprites.add(b)
- #   baddies.add(b)
-
-
 
 #fonction qui fait qu'on gagne le jeu
 def game_win():
@@ -294,6 +281,7 @@ gameOverSound = pygame.mixer.Sound('MarioKart64GameOver.mp3') #gameover sound
 WinSound = pygame.mixer.Sound('WinSound.mp3') #win sound
 pewshot = pygame.mixer.Sound('LASRGun_Blaster star wars 4 (ID 1760)_LS.wav') #tir de crachat
 CarapaceBleuPop = pygame.mixer.Sound ('PopBallon.mp3') #explosion des mexciains
+lifeup
 
 #todo sons mort des mexicains
 #mort1 = pygame.mixer.Sound('Paul1.wav')
@@ -399,6 +387,7 @@ while True:
             if hit.type == 'coeur rouge':
                 if player.lives < 3:
                     player.lives += 1
+
 
             if hit.type == 'carapace bleu':
                 for ba in baddies:
