@@ -149,7 +149,7 @@ class Baddie(pygame.sprite.Sprite):
         self.rect.y = random.randrange(-100, -40)
         self.speedy = random.randrange(1, 3)
         self.powe = 1
-        self.powe_time = pygame.time.get_ticks()
+        #self.powe_time = pygame.time.get_ticks()
         #pygame.sprite.Sprite.__init__(Baddie.group)
 
         # augmentation vitesse des baddies
@@ -162,19 +162,18 @@ class Baddie(pygame.sprite.Sprite):
         #if score > 2000:
          #   self.speedy = random.randrange(2, 6)
 
-    def freeze(self):
-        self.powe += 1 #ajoute 1 tir
-        self.powe_time = pygame.time.get_ticks()
-        print("salut")
+
+
 
     #définition des mouvements
     def update(self):
         self.rect.y += self.speedy
+        self.speedy
         #les faire respawn quand ils sont hors de l'écran
-        #if self.rect.top > WINDOWHEIGHT + 10:
-            #self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
-            #self.rect.y = random.randrange(-100, -40)
-            #self.speedy = random.randrange(1, 3)
+        if self.rect.top > WINDOWHEIGHT + 10:
+            self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
+            self.rect.y = random.randrange(-100, -40)
+            self.speedy = random.randrange(1, 3)
         if self.rect.top > WINDOWHEIGHT:
             player.lives -= 1
             self.kill()
@@ -183,18 +182,27 @@ class Baddie(pygame.sprite.Sprite):
             #self.powe_time = pygame.time.get_ticks()
             #augmentation vitesse des baddies
         if self.powe == 1:
-            if score > 500:
-                self.speedy = random.randrange(1, 4)
-            if score > 1000:
-                self.speedy = random.randrange(1, 5)
-            if score > 1500:
-                self.speedy = random.randrange(2, 5)
-            if score > 2000:
-                self.speedy = random.randrange(2, 6)
-        if self.powe == 2:
+            self.speedy = 3
+            #if score > 500:
+                #self.speedy = random.randrange(1, 4)
+            #if score > 1000:
+             #   self.speedy = random.randrange(1, 5)
+            #if score > 1500:
+             #   self.speedy = random.randrange(2, 5)
+            #if score > 2000:
+             #   self.speedy = random.randrange(2, 6)
+        if self.powe > 1:
             print("réussite")
-            self.speedy = 10
+            self.speedy == self.speedy*3
 
+    def freeze(self):
+        self.powe += 1 #ajoute 1 tir
+        #self.powe_time = pygame.time.get_ticks()
+        print("salut")
+        print(self.powe)
+        #if self.powe == 2:
+         #   print("rt")
+          #  self.speedy == self.speedy*4
 
 
 
@@ -205,6 +213,7 @@ class Baddie(pygame.sprite.Sprite):
 
             #self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
             #self.rect.y = random.randrange(-100, -40)
+
 
 
 baddies = pygame.sprite.Group()
@@ -403,7 +412,6 @@ while True:
                 if player.lives < 3:
                     player.lives += 1
 
-
             if hit.type == 'carapace bleu':
                 for ba in baddies:
                     ba.kill()
@@ -414,6 +422,8 @@ while True:
 
             if hit.type =='freeze':
                 Baddie().freeze()
+
+
 
         hitz = pygame.sprite.spritecollide(player, baddies, True)
         if hitz:
