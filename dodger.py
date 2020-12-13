@@ -66,7 +66,6 @@ class Player(pygame.sprite.Sprite):
         self.lives = 0
 
     def update(self):
-
         #Temps maximum du powerup
         if self.power >= 2 and pygame.time.get_ticks() - self.power_time > POWERUP_TIME:
             self.power -=1
@@ -149,50 +148,56 @@ class Baddie(pygame.sprite.Sprite):
         self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
         self.rect.y = random.randrange(-100, -40)
         self.speedy = random.randrange(1, 3)
+        self.powe = 1
+        self.powe_time = pygame.time.get_ticks()
         #pygame.sprite.Sprite.__init__(Baddie.group)
 
         # augmentation vitesse des baddies
-        if score > 500:
-            self.speedy = random.randrange(1, 4)
-        if score > 1000:
-            self.speedy = random.randrange(1, 5)
-        if score > 1500:
-            self.speedy = random.randrange(2, 5)
-        if score > 2000:
-            self.speedy = random.randrange(2, 6)
+        #if score > 500:
+        #    self.speedy = random.randrange(1, 4)
+        #if score > 1000:
+         #   self.speedy = random.randrange(1, 5)
+        #if score > 1500:
+         #   self.speedy = random.randrange(2, 5)
+        #if score > 2000:
+         #   self.speedy = random.randrange(2, 6)
 
     def freeze(self):
-        self.speedy = 0.5
-        self.time = pygame.time.get_ticks()
-
-
-
-
+        self.powe += 1 #ajoute 1 tir
+        self.powe_time = pygame.time.get_ticks()
+        print("salut")
 
     #définition des mouvements
     def update(self):
         self.rect.y += self.speedy
         #les faire respawn quand ils sont hors de l'écran
-        if self.rect.top > WINDOWHEIGHT + 10:
-            self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
-            self.rect.y = random.randrange(-100, -40)
-            self.speedy = random.randrange(1, 3)
+        #if self.rect.top > WINDOWHEIGHT + 10:
+            #self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
+            #self.rect.y = random.randrange(-100, -40)
+            #self.speedy = random.randrange(1, 3)
         if self.rect.top > WINDOWHEIGHT:
             player.lives -= 1
             self.kill()
-        self.condition = self.rect.top > WINDOWHEIGHT and player.lives < 0
-
-
-
+        #if self.powe > 2 and pygame.time.get_ticks() - self.powe_time > POWERUP_TIME:
+         #   self.powe -= 1
+            #self.powe_time = pygame.time.get_ticks()
             #augmentation vitesse des baddies
-        if score > 500:
-            self.speedy = random.randrange(1, 4)
-        if score > 1000:
-            self.speedy = random.randrange(1, 5)
-        if score > 1500:
-            self.speedy = random.randrange(2, 5)
-        if score > 2000:
-            self.speedy = random.randrange(2, 6)
+        if self.powe == 1:
+            if score > 500:
+                self.speedy = random.randrange(1, 4)
+            if score > 1000:
+                self.speedy = random.randrange(1, 5)
+            if score > 1500:
+                self.speedy = random.randrange(2, 5)
+            if score > 2000:
+                self.speedy = random.randrange(2, 6)
+        if self.powe == 2:
+            print("réussite")
+            self.speedy = 10
+
+
+
+
     def destruction(self, Baddie):
         for sprite in self:
             if isinstance(sprite, Baddie):
