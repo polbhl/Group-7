@@ -114,6 +114,7 @@ powerup_images['carapace bleu'] = pygame.image.load('carapace bleu.png')
 powerup_images['coeur rouge'] = pygame.image.load('coeur-rougeoff.png')
 powerup_images['double crachat'] = pygame.image.load('douple_crachat.png')
 powerup_images['freeze'] = pygame.image.load('cold-face.png')
+powerup_images['chaleur'] = pygame.image.load('hot-face.png')
 coeur_img = pygame.image.load('coeur-rougeoff.png')
 coeur_img_mini = pygame.transform.scale(coeur_img, (20, 20))
 
@@ -121,7 +122,7 @@ coeur_img_mini = pygame.transform.scale(coeur_img, (20, 20))
 class Pow(pygame.sprite.Sprite):
     def __init__(self, center):
         pygame.sprite.Sprite.__init__(self)
-        self.type = random.choice(['carapace bleu', 'coeur rouge', 'double crachat','freeze'])
+        self.type = random.choice(['carapace bleu', 'coeur rouge', 'double crachat', 'freeze', 'chaleur'])
         self.image = powerup_images[self.type]
         self.image = pygame.transform.scale(self.image, (20, 20))
         self.rect = self.image.get_rect()
