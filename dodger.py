@@ -1,6 +1,5 @@
 import pygame, random, sys
 from pygame.locals import *
-import cv2
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -83,6 +82,7 @@ class Player(pygame.sprite.Sprite):
             self.power -=1
             self.power_time = pygame.time.get_ticks()
 
+
         self.speedx = 0
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_LEFT]:
@@ -160,37 +160,34 @@ class Baddie(pygame.sprite.Sprite):
 
     #définition des mouvements
     def update(self):
-        if self.powe >= 2 and pygame.time.get_ticks() - self.powe_time > POWERUP_TIME:
-            self.powe -=1
-            self.powe_time = pygame.time.get_ticks()
         self.rect.y += self.speedy
 
         if self.rect.top > WINDOWHEIGHT:
             player.lives -= 1
-            lifeLost.play()
             self.kill()
 
         if self.powe == 1:
+
             if score > 500:
                 self.speedy = random.randrange(1, 4)
+
             if score > 1000:
                 self.speedy = random.randrange(1, 5)
+
             if score > 1500:
                 self.speedy = random.randrange(2, 5)
+
             if score > 2000:
                 self.speedy = random.randrange(2, 6)
-        if self.powe >= 2:
+
+        if self.powe == 2:
             print("réussite")
-            self.speedy = 1
+            self.speedy = 10
 
     def destruction(self, Baddie):
         for sprite in self:
             if isinstance(sprite, Baddie):
                 sprite.kill()
-
-            #self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
-            #self.rect.y = random.randrange(-100, -40)
-
 
 baddies = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
@@ -317,15 +314,6 @@ while True:
     nbmonstre=5
     ennemis(nbmonstre)
 
-    #nbrdemonstre =5
-
-    #for i in range(nbrdemonstre):  # nombre de baddies
-        #b = Baddie()
-        #all_sprites.add(b)
-        #baddies.add(b)
-    #if score >= 100:
-        #ennemis(6)
-
     pygame.mixer.music.play(-1, 0.0)
 
     while True: # The game loop runs while the game part is playing.
@@ -360,13 +348,6 @@ while True:
         if score == 800:
             ennemis(1)
 
-        # game over when baddies goes off the bottom screen
-        #for bad in baddies:
-            #if bad.rect.top > WINDOWHEIGHT:
-             #   player.lives -= 1
-            #break
-        #if badd > WINDOWHEIGHT:
-         #   terminate()
         hits = pygame.sprite.groupcollide(baddies, projectiles, True, True)
         for hit in hits:
             b = Baddie()
@@ -402,9 +383,6 @@ while True:
             if hit.type =='freeze':
                 Baddie().freeze()
 
-            if hit.type =='speed':
-                pass
-
         hitz = pygame.sprite.spritecollide(player, baddies, True)
         if hitz:
             player.lives -= 1
@@ -418,7 +396,6 @@ while True:
         drawText('Top Score: %s' % (topScore), font, windowSurface, 10, 40)
         draw_lives(screen, WINDOWWIDTH - 100, 5, player.lives, coeur_img_mini)
         all_sprites.draw(screen)
-
 
         # Check if any of the baddies have hit the player.
         #if playerHasHitBaddie(playerRect, baddies):
