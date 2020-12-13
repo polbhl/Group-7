@@ -297,7 +297,7 @@ drawText('BLUE TURTLE : All Mexicans die', font2, windowSurface, (WINDOWWIDTH / 
 drawText('DOUBLE SPIT : You shoot two bullet at a time', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 120)
 #drawText('FREEZE : Mexicans are moving slower', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 150)
 drawText('If a Mexican touches you or leaves the screen you lose a life', font3, windowSurface, (WINDOWWIDTH / 3) - 180, (WINDOWHEIGHT / 3) + 170)
-drawText('If you dont have a life anymore its game over', font3, windowSurface, (WINDOWWIDTH / 3) - 115, (WINDOWHEIGHT / 3) + 200)
+drawText('If you do not have a life anymore it is game over', font3, windowSurface, (WINDOWWIDTH / 3) - 130, (WINDOWHEIGHT / 3) + 200)
 drawText('You must reach 3000 points to win, good luck', font3, windowSurface, (WINDOWWIDTH / 3) - 120, (WINDOWHEIGHT / 3) + 250)
 drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 50, (WINDOWHEIGHT / 3) + 300)
 
