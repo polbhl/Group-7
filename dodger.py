@@ -174,15 +174,15 @@ class Baddie(pygame.sprite.Sprite):
 
         if self.powe == 1:
             if score > 500:
-                self.speedy = random.randrange(1, 3)
+                self.speedy = random.randrange(1, 2)
             if score > 1000:
-                self.speedy = random.randrange(2, 4)
+                self.speedy = random.randrange(1, 3)
             if score > 1500:
-                self.speedy = random.randrange(3, 5)
+                self.speedy = random.randrange(2, 4)
             if score > 2000:
-                self.speedy = random.randrange(4, 6)
+                self.speedy = random.randrange(3, 5)
             if score > 2500:
-                self.speedy = random.randrange(5,7)
+                self.speedy = random.randrange(4,6)
 
         if self.powe == 2:
             print("réussite")
@@ -426,7 +426,7 @@ while True:
         all_sprites.draw(screen)
         mainClock.tick(FPS)
         pygame.display.flip()  # pas supprimer cette ligne
-    if score > 2000 :
+    if score > 3000 :
         game_win()
         #pass
 
