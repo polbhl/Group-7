@@ -259,8 +259,8 @@ def waitForPlayerToPressKey():
                     terminate()
                 return
 
-def drawText(text, font, surface, x, y):
-    textobj = font.render(text, 1, WHITE)
+def drawText(text, font2, surface, x, y):
+    textobj = font2.render(text, 1, WHITE)
     textrect = textobj.get_rect()
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
@@ -280,6 +280,8 @@ pygame.mouse.set_visible(False)
 
 # Set up the fonts.
 font = pygame.font.SysFont(None, 48)
+font2 = pygame.font.SysFont(None, 22)
+font3 = pygame.font.SysFont(None, 30)
 
 # Sons
 pygame.mixer.music.load('MusiqueJeu.mp3')
@@ -295,13 +297,14 @@ lifeLost = pygame.mixer.Sound ('Paul5.mp3') #quand on perd une vie
 # ÉCRAN DE DÉMARRAGE.
 #windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
 screen.fill(BLACK)
-drawTexts('LAMA VS MEXICAINS', font, windowSurface, (WINDOWWIDTH / 4), (WINDOWHEIGHT / 3) - 30)
-drawText('BONUS : ', font, windowSurface, (WINDOWWIDTH / 3) - 100, (WINDOWHEIGHT / 3))
-drawText('LIFE : Not die when mexican goes out of the screen', font, windowSurface, (WINDOWWIDTH / 3)- 100, (WINDOWHEIGHT / 3) + 30)
-drawText('BLUE TURTLE : All mexicans die', font, windowSurface, (WINDOWWIDTH / 3)- 100, (WINDOWHEIGHT / 3) + 60)
-drawText('DOUBLE SPIT : You shoot two bullet at a time', font, windowSurface, (WINDOWWIDTH / 3) - 100, (WINDOWHEIGHT / 3) + 90)
-drawText('FREEZE : Mexicans are moving slower', font, windowSurface, (WINDOWWIDTH / 3) - 100, (WINDOWHEIGHT / 3) + 120)
-drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) , (WINDOWHEIGHT / 3) + 150)
+drawTexts('LAMA VS MEXICAINS', font, windowSurface, (WINDOWWIDTH / 4), (WINDOWHEIGHT / 3) - 60)
+drawText('BONUS : ', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 30)
+drawText('LIFE : Not die when mexican goes out of the screen', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 60)
+drawText('BLUE TURTLE : All mexicans die', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 90)
+drawText('DOUBLE SPIT : You shoot two bullet at a time', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 120)
+drawText('FREEZE : Mexicans are moving slower', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 150)
+drawText('You must reach 10 000 points to win, good luck', font3, windowSurface, (WINDOWWIDTH / 3) - 100, (WINDOWHEIGHT / 3) + 200)
+drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (WINDOWHEIGHT / 3) + 250)
 
 pygame.display.update()
 waitForPlayerToPressKey()
