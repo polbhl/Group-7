@@ -135,7 +135,7 @@ class Pow(pygame.sprite.Sprite):
         if self.rect.top > WINDOWHEIGHT:
             self.kill()
 
-powerups=pygame.sprite.Group()
+#powerups=pygame.sprite.Group()
 
 #class baddies par sprite
 class Baddie(pygame.sprite.Sprite):
@@ -161,10 +161,14 @@ class Baddie(pygame.sprite.Sprite):
     #définition des mouvements
     def update(self):
         self.rect.y += self.speedy
+        if self.rect.top > WINDOWHEIGHT + 10:
+            self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
+            self.rect.y = random.randrange(-100, -40)
+            self.speedy = random.randrange (1, 8)
 
         if self.rect.top > WINDOWHEIGHT:
             player.lives -= 1
-            self.kill()
+            #self.kill()
 
         if self.powe == 1:
 
