@@ -169,6 +169,7 @@ class Baddie(pygame.sprite.Sprite):
         if self.rect.top > WINDOWHEIGHT:
             player.lives -= 1
             self.kill()
+        #wewe
 
 
         if self.powe == 1:
