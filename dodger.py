@@ -334,7 +334,7 @@ def drawText(text, font2, surface, x, y):
     surface.blit(textobj, textrect)
 
 def drawTexts(text, font, surface, x, y):
-    textobj = font.render(text, 1, (252, 108, 158))
+    textobj = font.render(text, 1, (205, 20, 20))
     textrect = textobj.get_rect()
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
