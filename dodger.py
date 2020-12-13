@@ -274,7 +274,7 @@ pygame.mouse.set_visible(False)
 # Set up the fonts.
 font = pygame.font.SysFont(None, 48)
 font2 = pygame.font.SysFont(None, 22)
-font3 = pygame.font.SysFont(None, 30)
+font3 = pygame.font.SysFont(None, 28)
 
 # Sons
 pygame.mixer.music.load('MusiqueJeu.mp3')
@@ -290,14 +290,16 @@ lifeLost = pygame.mixer.Sound ('Paul5.mp3') #quand on perd une vie
 # ÉCRAN DE DÉMARRAGE.
 #windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
 screen.fill(BLACK)
-drawTexts('LAMA VS MEXICAINS', font, windowSurface, (WINDOWWIDTH / 4), (WINDOWHEIGHT / 3) - 60)
-drawText('BONUS : ', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 30)
-drawText('LIFE : Not die when mexican goes out of the screen', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 60)
-drawText('BLUE TURTLE : All mexicans die', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 90)
+drawTexts('LAMA VS MEXICAINS', font, windowSurface, (WINDOWWIDTH / 4) - 20, (WINDOWHEIGHT / 3) - 60)
+drawText('BONUS : ', font3, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 30)
+drawText('HEART : You win an extra life', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 60)
+drawText('BLUE TURTLE : All Mexicans die', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 90)
 drawText('DOUBLE SPIT : You shoot two bullet at a time', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 120)
-drawText('FREEZE : Mexicans are moving slower', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 150)
-drawText('You must reach 10 000 points to win, good luck', font3, windowSurface, (WINDOWWIDTH / 3) - 100, (WINDOWHEIGHT / 3) + 200)
-drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 30, (WINDOWHEIGHT / 3) + 250)
+#drawText('FREEZE : Mexicans are moving slower', font2, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 150)
+drawText('If a Mexican touches you or leaves the screen you lose a life', font3, windowSurface, (WINDOWWIDTH / 3) - 180, (WINDOWHEIGHT / 3) + 170)
+drawText('If you dont have a life anymore its game over', font3, windowSurface, (WINDOWWIDTH / 3) - 115, (WINDOWHEIGHT / 3) + 200)
+drawText('You must reach 3000 points to win, good luck', font3, windowSurface, (WINDOWWIDTH / 3) - 120, (WINDOWHEIGHT / 3) + 250)
+drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 50, (WINDOWHEIGHT / 3) + 300)
 
 pygame.display.update()
 waitForPlayerToPressKey()
