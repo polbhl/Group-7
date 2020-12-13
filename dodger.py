@@ -3,10 +3,10 @@ from pygame.locals import *
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-SAND = (198, 166, 100)
+GREY = (127, 127, 127)
 WINDOWWIDTH = 600
 WINDOWHEIGHT = 695
-TEXTCOLOR = SAND
+TEXTCOLOR = GREY
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
 BACKGROUNDCOLOR = (BLACK)
@@ -176,13 +176,13 @@ class Baddie(pygame.sprite.Sprite):
             if score > 500:
                 self.speedy = random.randrange(1, 3)
             if score > 1000:
-                self.speedy = random.randrange(2, 5)
+                self.speedy = random.randrange(2, 4)
             if score > 1500:
                 self.speedy = random.randrange(3, 6)
             if score > 2000:
-                self.speedy = random.randrange(4, 7)
+                self.speedy = random.randrange(4, 6)
             if score > 2500:
-                self.speedy = random.randrange(5,8)
+                self.speedy = random.randrange(5,7)
 
         if self.powe == 2:
             print("réussite")
