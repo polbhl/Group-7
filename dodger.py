@@ -233,14 +233,12 @@ def terminate():
 def game_over():
     pygame.mixer.music.stop()
     gameOverSound.play()
-    #gameOverGIF.play()
 
     drawText('GAME OVER', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
     drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
     pygame.display.update()
     waitForPlayerToPressKey()
     gameOverSound.stop()
-    #gameOverGIF.stop()
 
 def waitForPlayerToPressKey():
     while True:
