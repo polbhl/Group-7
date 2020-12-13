@@ -374,7 +374,7 @@ while True:
             b = Baddie()
             all_sprites.add(b)
             baddies.add(b)
-            mortMexicain.play()
+            #mortMexicain.play()
 
             if random.random() > 0.85: # 15% de chance que les powerup apparaissent
                 pow = Pow(hit.rect.center)
