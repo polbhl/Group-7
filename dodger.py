@@ -6,6 +6,7 @@ WHITE = (255, 255, 255)
 GREY = (127, 127, 127)
 WINDOWWIDTH = 600
 WINDOWHEIGHT = 695
+RED = (0,0,0)
 TEXTCOLOR = GREY
 screen = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
@@ -28,7 +29,7 @@ BACKGROUNDCELEBRATION = pygame.image.load('celebration-confetti-red.png')
 BACKGROUNDCELEBRATION_rect = BACKGROUNDCELEBRATION.get_rect()
 screen.blit(BACKGROUNDCELEBRATION, BACKGROUNDCELEBRATION_rect)
 
-BACKGROUNDLAMA = pygame.image.load('lama_marrant2.jpg')
+BACKGROUNDLAMA = pygame.image.load('lama_marrant4.jpg')
 BACKGROUNDLAMA_rect = BACKGROUNDLAMA.get_rect()
 screen.blit(BACKGROUNDLAMA, BACKGROUNDLAMA_rect)
 
@@ -327,7 +328,7 @@ def waitForPlayerToPressB():
                     return
 
 def drawText(text, font2, surface, x, y):
-    textobj = font2.render(text, 1, BLACK)
+    textobj = font2.render(text, 1, RED)
     textrect = textobj.get_rect()
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
