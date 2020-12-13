@@ -281,7 +281,7 @@ gameOverSound = pygame.mixer.Sound('MarioKart64GameOver.mp3') #gameover sound
 WinSound = pygame.mixer.Sound('WinSound.mp3') #win sound
 pewshot = pygame.mixer.Sound('LASRGun_Blaster star wars 4 (ID 1760)_LS.wav') #tir de crachat
 CarapaceBleuPop = pygame.mixer.Sound ('PopBallon.mp3') #explosion des mexciains
-lifeup
+lifeup = pygame.mixer.Sound ('MarioBros1Life.mp3') #gagner une vie
 
 #todo sons mort des mexicains
 #mort1 = pygame.mixer.Sound('Paul1.wav')
@@ -385,6 +385,7 @@ while True:
             if hit.type == 'double crachat':
                 player.powerup()
             if hit.type == 'coeur rouge':
+                lifeup.play()
                 if player.lives < 3:
                     player.lives += 1
 
