@@ -219,6 +219,17 @@ class Fest(pygame.sprite.Sprite):
         self.rect.y = random.randrange(-100, -40)
         self.speedy = random.randrange(1, 3)
 
+        if score > 500:
+            self.speedy = random.randrange(1, 2)
+        if score > 1000:
+            self.speedy = random.randrange(1, 3)
+        if score > 1500:
+            self.speedy = random.randrange(2, 4)
+        if score > 2000:
+            self.speedy = random.randrange(3, 5)
+        if score > 2500:
+            self.speedy = random.randrange(4, 6)
+
     #définition des mouvements
     def update(self):
         self.rect.y += self.speedy
@@ -265,9 +276,8 @@ def game_win():
     drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
     conf(10)
     pygame.display.flip()
-    #waitForPlayerToPressKey()
-    if event.type == K_SPACE:
-        terminate()
+    waitForPlayerToPressKey()
+
     WinSound.stop()
 
 def draw_lives(surface, x, y, lives, img):
@@ -318,13 +328,13 @@ def waitForPlayerToPressB():
                     return
 
 def drawText(text, font2, surface, x, y):
-    textobj = font2.render(text, 1, WHITE)
+    textobj = font2.render(text, 1, BLACK)
     textrect = textobj.get_rect()
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
 def drawTexts(text, font, surface, x, y):
-    textobj = font.render(text, 1, (253, 108, 158))
+    textobj = font.render(text, 1, (252, 108, 158))
     textrect = textobj.get_rect()
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
