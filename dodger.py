@@ -274,7 +274,6 @@ def game_win():
     WinSound.play()
     drawText('You Win', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
     drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
-    conf(10)
     pygame.display.flip()
     waitForPlayerToPressKey()
 
@@ -501,22 +500,24 @@ while True:
             topScore = score # set new top score
         if player.lives < 0:
             break
-            conf(10)
+
+        mainClock.tick(FPS)
+
         all_sprites.update()
         pygame.display.update()
-        all_sprites.draw(screen)
-        mainClock.tick(FPS)
-        pygame.display.flip()
+
+        if score > 3000:
+            break
         # pas supprimer cette ligne
-    if score > 3000 :
+    if score > 3000:
         game_win()
-        #pass
+
 
     # Stop the game and show the "Game Over" screen.
     else:
         game_over()
-
-
+    pygame.display.flip()
+    all_sprites.draw(screen)
 
 
 #todo écrire les règles -> document word et insérer l'image
