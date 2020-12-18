@@ -25,7 +25,6 @@ screen.fill(WHITE)
 screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
 all_sprites.draw(screen)
 BACKGROUNDCELEBRATION = pygame.image.load('celebration-confetti-red.png')
-#BACKGROUNDCELEBRATION = pygame.transform.scale(BACKGROUNDCELEBRATION, (900, 1000))
 BACKGROUNDCELEBRATION_rect = BACKGROUNDCELEBRATION.get_rect()
 screen.blit(BACKGROUNDCELEBRATION, BACKGROUNDCELEBRATION_rect)
 
@@ -37,13 +36,6 @@ screen.blit(BACKGROUNDLAMA, BACKGROUNDLAMA_rect)
 
 FPS = 60
 POWERUP_TIME = 5000 #MILISECONDES
-
-BADDIEMINSIZE = 10
-BADDIEMAXSIZE = 40
-BADDIEMINSPEED = 1
-BADDIEMAXSPEED = 10
-ADDNEWBADDIERATE = 15
-PLAYERMOVERATE = 5
 
 score = 0
 
@@ -161,14 +153,6 @@ class Baddie(pygame.sprite.Sprite):
         self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
         self.rect.y = random.randrange(-100, -40)
         self.speedy = random.randrange(1, 3)
-        self.powe = 1
-        self.powe_time = pygame.time.get_ticks()
-        #pygame.sprite.Sprite.__init__(Baddie.group)
-
-    #def freeze(self):
-     #   self.powe += 1 #ajoute 1 tir
-     #   self.powe_time = pygame.time.get_ticks()
-     #   print("salut")
 
     #définition des mouvements
     def update(self):
@@ -192,74 +176,21 @@ class Baddie(pygame.sprite.Sprite):
         if self.rect.top > WINDOWHEIGHT:
             player.lives -= 1
             self.kill()
-        #wewe
-
-
-        #if self.powe == 1:
-
-
-        if self.powe == 2:
-            print("réussite")
-            self.speedy = 10
 
     def destruction(self, Baddie):
         for sprite in self:
             if isinstance(sprite, Baddie):
                 sprite.kill()
 
-
-class Fest(pygame.sprite.Sprite):
-    #caractéristiques des baddies
-
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('bullet.png')
-        self.image = pygame.transform.scale(self.image, (20, 20))
-        self.rect = self.image.get_rect()
-        self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
-        self.rect.y = random.randrange(-100, -40)
-        self.speedy = random.randrange(1, 3)
-
-        if score > 500:
-            self.speedy = random.randrange(1, 2)
-        if score > 1000:
-            self.speedy = random.randrange(1, 3)
-        if score > 1500:
-            self.speedy = random.randrange(2, 4)
-        if score > 2000:
-            self.speedy = random.randrange(3, 5)
-        if score > 2500:
-            self.speedy = random.randrange(4, 6)
-
-    #définition des mouvements
-    def update(self):
-        self.rect.y += self.speedy
-        if self.rect.top > WINDOWHEIGHT + 50:
-            self.rect.x = random.randrange(WINDOWWIDTH - self.rect.width)
-            self.rect.y = random.randrange(-100, -40)
-            self.speedy = random.randrange (1, 3)
-
-        if self.rect.top > WINDOWHEIGHT:
-            self.kill()
-        #wewe
-
-
 baddies = pygame.sprite.Group()
-fests = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 player = Player()
 baddie = Baddie()
 all_sprites.add(player)
 projectiles = pygame.sprite.Group()
 powerups = pygame.sprite.Group()
-#ba=pygame.sprite.Group(Baddie)
 
 
-def conf(nconf):
-    for i in range(nconf):
-        c = Fest()
-        all_sprites.add(c)
-        fests.add(c)
 
 def ennemis(nbmonstre):
     for i in range(nbmonstre):
@@ -273,8 +204,8 @@ def game_win():
     screen.blit(BACKGROUNDCELEBRATION, BACKGROUNDCELEBRATION_rect)
     pygame.mixer.music.stop()
     WinSound.play()
-    drawText('You Win', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
-    drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
+    drawText3('You Win', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
+    drawText3('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
     pygame.display.flip()
     waitForPlayerToPressKey()
 
@@ -296,10 +227,8 @@ def game_over():
     screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
     pygame.mixer.music.stop()
     gameOverSound.play()
-    conf(10)
-    drawText('GAME OVER', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
-    drawText('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
-    conf(10)
+    drawText3('GAME OVER', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
+    drawText3('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
     pygame.display.update()
     waitForPlayerToPressKey()
     #if event.key == K_SPACE or event.key == K_LEFT or event.key == K_RIGHT:
@@ -324,7 +253,6 @@ def waitForPlayerToPressB():
             if event.type == KEYDOWN:
                  if event.key == K_ESCAPE:# Pressing ESC quits.
                     terminate()
-                 if event.key == ord('z'):
                     return
 
 def drawText(text, font2, surface, x, y):
@@ -333,8 +261,14 @@ def drawText(text, font2, surface, x, y):
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
-def drawTexts(text, font, surface, x, y):
+def drawText2(text, font, surface, x, y):
     textobj = font.render(text, 1, (205, 20, 20))
+    textrect = textobj.get_rect()
+    textrect.topleft = (x, y)
+    surface.blit(textobj, textrect)
+
+def drawText3(text, font, surface, x, y):
+    textobj = font.render(text, 1, WHITE)
     textrect = textobj.get_rect()
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
@@ -350,7 +284,7 @@ pygame.mouse.set_visible(False)
 font = pygame.font.SysFont(None, 48)
 font2 = pygame.font.SysFont(None, 22)
 font3 = pygame.font.SysFont(None, 28)
-
+#font4 = pygame.font.SysFont(None, 55)
 # Sons
 pygame.mixer.music.load('MusiqueJeu.mp3')
 gameOverSound = pygame.mixer.Sound('Paul6.mp3') #gameover sound
@@ -366,7 +300,7 @@ lifeLost = pygame.mixer.Sound ('Paul5.mp3') #quand on perd une vie
 #windowSurface.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
 #screen.fill(BLACK)
 screen.blit(BACKGROUNDLAMA, BACKGROUNDLAMA_rect)
-drawTexts('LAMA VS MEXICAINS', font, windowSurface, (WINDOWWIDTH / 4) - 20, (WINDOWHEIGHT / 3) - 100)
+drawText2('LAMA VS MEXICAINS', font, windowSurface, (WINDOWWIDTH / 4) - 20, (WINDOWHEIGHT / 3) - 100)
 drawText('BONUS : ', font3, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) - 10)
 drawText('HEART : You win an extra life', font3, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 15)
 drawText('BLUE TURTLE : All Mexicans die', font3, windowSurface, (WINDOWWIDTH / 3) - 150, (WINDOWHEIGHT / 3) + 40)
