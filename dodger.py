@@ -212,7 +212,7 @@ def game_win():
     screen.blit(BACKGROUNDCELEBRATION, BACKGROUNDCELEBRATION_rect)
     pygame.mixer.music.stop()
     WinSound.play()
-    drawText3('You Win', font, windowSurface, (WINDOWWIDTH / 3), (WINDOWHEIGHT / 3))
+    drawText3('You Win', font, windowSurface, (WINDOWWIDTH / 2.6), (WINDOWHEIGHT / 3))
     drawText3('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
     pygame.display.flip()
     waitForPlayerToPressKey()
@@ -432,11 +432,11 @@ while True:
         pygame.display.update()
 
         # The game stops when the score is 3000
-        if score > 3000:
+        if score > 300:
             break
 
     # We win the game when we reach the score of 3000 and show the "Game Win" screen
-    if score > 3000:
+    if score > 300:
         game_win()
 
 
