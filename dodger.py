@@ -1,6 +1,7 @@
 import pygame, random, sys
 from pygame.locals import *
 
+# Set up some colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREY = (127, 127, 127)
@@ -18,9 +19,7 @@ all_sprites = pygame.sprite.Group()
 # Set title to the window and load background images
 pygame.display.set_caption("LAMA VS MEXICAINS")
 BACKGROUNDIMAGE = pygame.image.load('MP_peinture_off.jpg')
-pygame.transform.scale(BACKGROUNDIMAGE, (600, 700))
-BACKGROUNDIMAGE_rect = BACKGROUNDIMAGE.get_rect() #localisation background
-screen.fill(WHITE)
+BACKGROUNDIMAGE_rect = BACKGROUNDIMAGE.get_rect()
 screen.blit(BACKGROUNDIMAGE, BACKGROUNDIMAGE_rect)
 all_sprites.draw(screen)
 BACKGROUNDCELEBRATION = pygame.image.load('celebration-confetti-red.png')
@@ -32,7 +31,7 @@ BACKGROUNDLAMA_rect = BACKGROUNDLAMA.get_rect()
 screen.blit(BACKGROUNDLAMA, BACKGROUNDLAMA_rect)
 
 FPS = 60
-POWERUP_TIME = 5000 #MILISECONDES
+POWERUP_TIME = 5000 # In milliseconds
 
 score = 0
 
@@ -48,6 +47,8 @@ powerup_images['speed'] = pygame.image.load('RedFace.png')
 
 # Our Class for the projectiles
 class Projectile(pygame.sprite.Sprite):
+
+    # Characteristics of the projectiles
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('bullet.png')
@@ -57,14 +58,17 @@ class Projectile(pygame.sprite.Sprite):
         self.rect.centerx = x
         self.speedy = -10
 
+    # Movements of the projectiles
     def update(self):
         self.rect.centery += self.speedy
         # Make the projectile disappear when it goes off the screen
         if self.rect.bottom < 0:
             self.kill()
 
+
 # Our class for the player
 class Player(pygame.sprite.Sprite):
+    # Characteristics of the player
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('lama_player1.png')
@@ -76,6 +80,7 @@ class Player(pygame.sprite.Sprite):
         self.power_time=pygame.time.get_ticks()
         self.lives = 0
 
+    # Movements of the player
     def update(self):
         # Duration of the power
         if self.power >= 2 and pygame.time.get_ticks() - self.power_time > POWERUP_TIME:
@@ -100,15 +105,16 @@ class Player(pygame.sprite.Sprite):
         self.power += 1 # Add one projectile when the player shoot
         self.power_time = pygame.time.get_ticks()
 
-# Function that allows the player to shoot
+    # Function that allows the player to shoot
     def shoot(self):
-        # The state where the player shoot just one projectile
+
+        # The player shoots just one projectile
         if self.power == 1:
             projectile = Projectile(self.rect.centerx-10, self.rect.top)
             all_sprites.add(projectile)
             projectiles.add(projectile)
 
-        # The state where the player shoots 2 projectiles at the same time
+        # The player shoots 2 projectiles at the same time
         if self.power >= 2:
             projectile1 = Projectile(self.rect.left, self.rect.top) # Spawn of the first projectile
             projectile2 = Projectile(self.rect.right, self.rect.top) # Spawn of the second projectile
@@ -117,8 +123,11 @@ class Player(pygame.sprite.Sprite):
             projectiles.add(projectile1)
             projectiles.add(projectile2)
 
-# Our class for the powers
+
+# Our class for the bonus
 class Pow(pygame.sprite.Sprite):
+
+    # Characteristics of the bonus
     def __init__(self, center):
         pygame.sprite.Sprite.__init__(self)
         self.type = random.choice(['carapace bleu', 'coeur rouge', 'double crachat'])
@@ -128,13 +137,13 @@ class Pow(pygame.sprite.Sprite):
         self.rect.center = center
         self.speedy = 3
 
-    # Set up the movements of the powerups
+    # Movements of the bonus
     def update(self):
         self.rect.centery += self.speedy
-        #make the projectile disappear when it goes off the screen
+
+        # Make the projectile disappear when it goes off the screen
         if self.rect.top > WINDOWHEIGHT:
             self.kill()
-
 
 
 # Our class for the baddies
@@ -150,7 +159,7 @@ class Baddie(pygame.sprite.Sprite):
         self.rect.y = random.randrange(-100, -40)
         self.speedy = random.randrange(1, 3)
 
-    # Set up the movements of the baddies
+    # Movements of the baddies
     def update(self):
         self.rect.y += self.speedy
         if self.rect.top > WINDOWHEIGHT + 50:
@@ -170,7 +179,7 @@ class Baddie(pygame.sprite.Sprite):
             if score > 2500:
                 self.speedy = random.randrange(4, 6)
 
-        # The baddie don't exist no more when they go off the screen
+        # The baddies don't exist no more when they go off the screen
         if self.rect.top > WINDOWHEIGHT:
             player.lives -= 1
             self.kill()
@@ -232,11 +241,9 @@ def game_over():
     drawText3('Press a key to play again.', font, windowSurface, (WINDOWWIDTH / 3) - 80, (WINDOWHEIGHT / 3) + 50)
     pygame.display.update()
     waitForPlayerToPressKey()
-    #if event.key == K_SPACE or event.key == K_LEFT or event.key == K_RIGHT:
-
     gameOverSound.stop()
 
-# Function that make the game restart when we press a key
+# Function that makes the game restart when we press a key
 def waitForPlayerToPressKey():
     while True:
         for event in pygame.event.get():
@@ -266,6 +273,7 @@ def drawText3(text, font, surface, x, y):
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
 
+
 # Set up pygame, the window, and the mouse cursor.
 pygame.init()
 mainClock = pygame.time.Clock()
@@ -280,14 +288,11 @@ font3 = pygame.font.SysFont(None, 28)
 
 # Set up the sounds
 pygame.mixer.music.load('MusiqueJeu.mp3')
-gameOverSound = pygame.mixer.Sound('Paul6.mp3') #gameover sound
-WinSound = pygame.mixer.Sound('WinSound.mp3') #win sound
-pewshot = pygame.mixer.Sound('LASRGun_Blaster star wars 4 (ID 1760)_LS.wav') #tir de crachat
-CarapaceBleuPop = pygame.mixer.Sound ('PopBallon.mp3') #explosion des mexciains
-lifeup = pygame.mixer.Sound ('MarioBros1Life.mp3') #gagner une vie
-freezeSound = pygame.mixer.Sound ('freeze.wav') #quand les mexicains freeze
-mortMexicain = pygame.mixer.Sound ('mortMexicain.mp3') #mexicain meurt
-lifeLost = pygame.mixer.Sound ('Paul5.mp3') #quand on perd une vie
+gameOverSound = pygame.mixer.Sound('Paul6.mp3') # Gameover sound
+WinSound = pygame.mixer.Sound('WinSound.mp3') # Win sound
+CarapaceBleuPop = pygame.mixer.Sound ('PopBallon.mp3') # Sound of the 'carapace bleue' bonus
+lifeup = pygame.mixer.Sound ('MarioBros1Life.mp3') # Sound when we win a life
+lifeLost = pygame.mixer.Sound ('Paul5.mp3') # Sound when we loose a life
 
 # Set up the start screen and the rules
 screen.blit(BACKGROUNDLAMA, BACKGROUNDLAMA_rect)
@@ -307,30 +312,32 @@ drawText('Press a key to start.', font, windowSurface, (WINDOWWIDTH / 3) - 50, (
 pygame.display.update()
 waitForPlayerToPressKey()
 
+# The topScore is 0 when we launch the game
 topScore = 0
+
 while True:
 
-    score = 0
+    # Set up the parameters when the game starts
+    score = 0 # The score is 0 when we start the game
     all_sprites = pygame.sprite.Group()
     player = Player()
     all_sprites.add(player)
     projectiles = pygame.sprite.Group()
     baddies = pygame.sprite.Group()
     baddie = Baddie()
-    nbmonstre=5
+    nbmonstre = 5 # The number of baddies when we start the game
     ennemis(nbmonstre)
     pygame.mixer.music.play(-1, 0.0)
 
     while True: # The game loop runs while the game part is playing.
-        score += 1 # Increase score.
+        score += 1 # Increase score
 
         for event in pygame.event.get():
             if event.type == QUIT:
                 terminate()
 
-
             if event.type == KEYDOWN:
-
+                # The player shoot when we press space
                 if event.key == K_SPACE:
                     player.shoot()
 
@@ -338,6 +345,7 @@ while True:
                 # The game stop when we press ESC
                 if event.key == K_ESCAPE:
                         terminate()
+
         # More baddies spawn when the score increase
         if score == 400:
             ennemis(1)
@@ -359,13 +367,14 @@ while True:
 
         # Collision between the projectiles and the baddies
         hits = pygame.sprite.groupcollide(baddies, projectiles, True, True)
+        # Make the baddies respawn when we shoot them
         for hit in hits:
             b = Baddie()
             all_sprites.add(b)
             baddies.add(b)
 
             # The probability of a bonus spawn from a baddie
-            if random.random() > 0.85: # 15% de chance que les powerup apparaissent
+            if random.random() > 0.85: # 15% chance that a bonus spawn
                 pow = Pow(hit.rect.center)
                 all_sprites.add(pow)
                 powerups.add(pow)
@@ -374,18 +383,19 @@ while True:
         hits = pygame.sprite.spritecollide(player, powerups, True)
         for hit in hits:
 
-            # Bonus double crachat
+            # Bonus 'double crachat'
             if hit.type == 'double crachat':
                 player.powerup()
 
-            # Bonus coeur rouge
+            # Bonus 'coeur rouge'
             if hit.type == 'coeur rouge':
                 lifeup.play()
-                if player.lives < 3:
-                    player.lives += 1
+                if player.lives < 3: # The player can't have more than 3 lives
+                    player.lives += 1 # The player win a life
 
-            # Bonus carapace bleue
+            # Bonus 'carapace bleue'
             if hit.type == 'carapace bleu':
+                # Make the baddies disappear and respawn
                 for ba in baddies:
                     ba.kill()
                     b = Baddie()
@@ -395,6 +405,7 @@ while True:
 
         # Collision between the player and the baddies
         hitz = pygame.sprite.spritecollide(player, baddies, True)
+        # The player loose a life when a baddie hits him
         if hitz:
             player.lives -= 1
             lifeLost.play()
@@ -432,6 +443,7 @@ while True:
     # Stop the game and show the "Game Over" screen.
     else:
         game_over()
+
     pygame.display.flip()
     all_sprites.draw(screen)
 
