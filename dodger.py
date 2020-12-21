@@ -77,14 +77,14 @@ class Player(pygame.sprite.Sprite):
         self.rect.bottom = WINDOWHEIGHT - 10
         self.speedx = 0
         self.power = 1
-        self.power_time=pygame.time.get_ticks()
+        self.power_time = pygame.time.get_ticks()
         self.lives = 0
 
     # Movements of the player
     def update(self):
         # Duration of the power
         if self.power >= 2 and pygame.time.get_ticks() - self.power_time > POWERUP_TIME:
-            self.power -=1
+            self.power -= 1
             self.power_time = pygame.time.get_ticks()
 
         # Set up the movements and the speed of the player
@@ -266,13 +266,6 @@ def drawText2(text, font, surface, x, y):
     textrect = textobj.get_rect()
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
-
-def drawText3(text, font, surface, x, y):
-    textobj = font.render(text, 1, WHITE)
-    textrect = textobj.get_rect()
-    textrect.topleft = (x, y)
-    surface.blit(textobj, textrect)
-
 
 # Set up pygame, the window, and the mouse cursor.
 pygame.init()
