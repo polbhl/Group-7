@@ -42,7 +42,7 @@ powerup_images['coeur rouge'] = pygame.image.load('coeur-rougeoff.png')
 powerup_images['double crachat'] = pygame.image.load('douple_crachat.png')
 coeur_img = pygame.image.load('coeur-rougeoff.png')
 coeur_img_mini = pygame.transform.scale(coeur_img, (20, 20))
-powerup_images['speed'] = pygame.image.load('RedFace.png')
+
 
 
 # Our Class for the projectiles
@@ -266,6 +266,13 @@ def drawText2(text, font, surface, x, y):
     textrect = textobj.get_rect()
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
+
+def drawText3(text, font, surface, x, y):
+    textobj = font.render(text, 1, WHITE)
+    textrect = textobj.get_rect()
+    textrect.topleft = (x, y)
+    surface.blit(textobj, textrect)
+
 
 # Set up pygame, the window, and the mouse cursor.
 pygame.init()
